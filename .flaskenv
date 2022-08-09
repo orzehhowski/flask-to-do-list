@@ -1,0 +1,2 @@
+FLASK_APP=ToDoList.py
+FLASK_ENV=development

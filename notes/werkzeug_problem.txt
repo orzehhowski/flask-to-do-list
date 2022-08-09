@@ -1,0 +1,49 @@
+to file
+C:\Users\b.orzechowski\Desktop\git\flask-to-do-list\venv\Lib\site-packages\Werkzeug-2.2.2-py3.9.egg\werkzeug\routing\__init__.py
+i need to add this and i dont know why
+maybe with pip install it will work
+
+
+import ast
+import difflib
+import posixpath
+import re
+import typing
+import typing as t
+import uuid
+import warnings
+from pprint import pformat
+from string import Template
+from threading import Lock
+from types import CodeType
+
+def parse_rule(rule: str) -> t.Iterator[t.Tuple[t.Optional[str], t.Optional[str], str]]:
+    """Parse a rule and return it as generator. Each iteration yields tuples
+    in the form ``(converter, arguments, variable)``. If the converter is
+    `None` it's a static url part, otherwise it's a dynamic one.
+
+    :internal:
+    """
+    pos = 0
+    end = len(rule)
+    do_match = _rule_re.match
+    used_names = set()
+    while pos < end:
+        m = do_match(rule, pos)
+        if m is None:
+            break
+        data = m.groupdict()
+        if data["static"]:
+            yield None, None, data["static"]
+        variable = data["variable"]
+        converter = data["converter"] or "default"
+        if variable in used_names:
+            raise ValueError(f"variable name {variable!r} used twice.")
+        used_names.add(variable)
+        yield converter, data["args"] or None, variable
+        pos = m.end()
+    if pos < end:
+        remaining = rule[pos:]
+        if ">" in remaining or "<" in remaining:
+            raise ValueError(f"malformed url rule: {rule!r}")
+        yield None, None, remaining
