@@ -5,9 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/style.css') }}">
+    <script src="https://kit.fontawesome.com/2d6f8b8f67.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-    <div class="wrapper"><p>test</p></div>
+    {% block content %}{% endblock content %}
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

@@ -1,3 +1,5 @@
+WERKZEUG 2.2.2 IS BROKEN, USE 2.1.2 !
+
 to file
 C:\Users\b.orzechowski\Desktop\git\flask-to-do-list\venv\Lib\site-packages\Werkzeug-2.2.2-py3.9.egg\werkzeug\routing\__init__.py
 i need to add this and i dont know why

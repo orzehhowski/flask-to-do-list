@@ -7,7 +7,7 @@ from flask_login import login_required
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('base.html')
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -16,3 +16,8 @@ def login():
     if form.validate_on_submit():
         pass
     return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    pass
