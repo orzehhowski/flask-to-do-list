@@ -1,4 +1,5 @@
 const toggleBurgerMenu = () => {
+    console.log('object');
     const BurgerIcon = document.querySelector('.bars-icon')
     const xMark = document.querySelector('.xmark-icon')
     const menu = document.querySelector('.menu')
@@ -12,7 +13,9 @@ const toggleBurgerMenu = () => {
 
 
 const main = () => {
-    const icons = document.querySelectorAll('menu-icon')
+    const icons = document.querySelectorAll('.menu-icon')
 
-    icons.forEach(icon => icon.addEventListener('click', toggleBurgerMenu))
+    icons.forEach(icon => {icon.addEventListener('click', toggleBurgerMenu)})
 }
+
+main()

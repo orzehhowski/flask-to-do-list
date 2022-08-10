@@ -1,7 +1,8 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 body {
@@ -22,15 +23,15 @@ body {
 }
 
 .nav {
-  z-index: 10;
-  position: -webkit-sticky;
+  z-index: 5;
   position: sticky;
   top: 0;
   right: 0;
   height: 0;
 }
 .nav .menu-icon {
-  z-index: 2;
+  z-index: 6;
+  position: relative;
   background: none;
   border: none;
   padding: 24px;
@@ -46,24 +47,29 @@ body {
 }
 .nav .menu {
   position: absolute;
-  top: -200px;
-  padding-top: 39px;
+  top: -300px;
+  padding-top: 11px;
   width: 100%;
   background-color: rgba(0, 191, 255, 0.8);
   text-align: center;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
-}
-.nav .menu li {
-  margin: 20px auto;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 .nav .menu li a {
+  display: inline-block;
+  padding: 18px;
   text-decoration: none;
   font-weight: bold;
   font-size: 20px;
   text-transform: uppercase;
+  -webkit-transition: color 0.3s;
+  transition: color 0.3s;
 }
 .nav .show {
-  transform: translateY(100%);
+  -webkit-transform: translateY(300px);
+          transform: translateY(300px);
 }
 .nav .bubble {
   display: none;
@@ -82,6 +88,7 @@ body {
   color: #eee;
   text-decoration: none;
   font-weight: bold;
+  -webkit-transition: color 0.3s;
   transition: color 0.3s;
 }
 .nav .main-bubble {
@@ -90,7 +97,8 @@ body {
   right: -50px;
   width: 400px;
   background-color: navy;
-  box-shadow: 0 0 10px navy;
+  -webkit-box-shadow: 0 0 10px navy;
+          box-shadow: 0 0 10px navy;
 }
 .nav .main-bubble .main-link {
   padding-top: 190px;
@@ -104,7 +112,8 @@ body {
   left: 160px;
   width: 220px;
   background-color: deepskyblue;
-  box-shadow: 0 0 10px deepskyblue;
+  -webkit-box-shadow: 0 0 10px deepskyblue;
+          box-shadow: 0 0 10px deepskyblue;
 }
 .nav .logout-bubble .logout-link {
   padding-top: 70px;
@@ -117,7 +126,8 @@ body {
   top: 260px;
   left: 30px;
   background-color: dodgerblue;
-  box-shadow: 0 0 10px dodgerblue;
+  -webkit-box-shadow: 0 0 10px dodgerblue;
+          box-shadow: 0 0 10px dodgerblue;
 }
 .nav .author-bubble .author-link {
   padding-top: 50px;
@@ -133,8 +143,12 @@ body {
   position: relative;
   height: 200px;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-image: url("../img/header-640.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -145,7 +159,8 @@ body {
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 10px black;
+  -webkit-box-shadow: 0 0 10px black;
+          box-shadow: 0 0 10px black;
 }
 .header h1 {
   margin: auto;
@@ -169,9 +184,15 @@ body {
 }
 @media (min-width: 992px) {
   .nav .bubble {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
   .header {
     width: 90%;
@@ -186,7 +207,8 @@ body {
     margin: 5vh auto;
     border: 5px solid navy;
     border-radius: 30px;
-    box-shadow: 0 0 10px navy;
+    -webkit-box-shadow: 0 0 10px navy;
+            box-shadow: 0 0 10px navy;
     overflow: hidden;
     height: 90vh;
   }
