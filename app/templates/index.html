@@ -4,12 +4,20 @@
 <div class="main">
     <nav class="nav">
         <!-- mobile nav -->
-        <button class="menu-icon bars-icon">
+        <button class="icon menu-icon bars-icon">
             <i class="fa-solid fa-bars"></i>
         </button>
-        <button class="hide menu-icon xmark-icon">
+        <button class="hide icon menu-icon xmark-icon-menu">
             <i class="fa-solid fa-xmark"></i>
         </button>
+
+        <button class="icon aside-icon right-arrow-icon">
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+        <button class="hide aside-icon icon xmark-icon-lists">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
 
         <div class="menu">
             <ul class="menu-list">
@@ -19,6 +27,8 @@
                     Logout</a></li>
             </ul>
         </div>
+
+        
         
         <!-- nav for pc -->
         <div class="main-bubble bubble">
@@ -33,14 +43,33 @@
             </div>
         </div>
     </nav>
-
+    
     <header class="header">
         <div class="shadow"></div>
         <h1>ToDo <span>List</span></h1>
     </header>
+    
     <aside class="aside">
+        <div class="lists-mobile ">
+            <ul class="lists-list">
+                {% for i in range(15) %}
+                    
+                <li>
+                    <a href="#"><input type="text" placeholder="test list" size="8" ></a>
+                    <span class="tools">
+                        <button class="tools-button">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="tools-button">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
 
     </aside>
-    <div style="height: 100vh; width: 100%"></div>
+    <div style="height: 160vh; width: 100%"></div>
 </div>
 {% endblock content %}
