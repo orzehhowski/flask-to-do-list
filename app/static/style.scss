@@ -24,7 +24,9 @@ button {
     position: relative;
     width: 100%;
     max-width: 1200px;
+    min-height: 100vh;
     margin: 0px auto;
+    overflow-x: hidden;
 }
 
 .nav {
@@ -225,13 +227,10 @@ button {
                         font-weight: bold;
                         font-size: 18px;
                         color: navy;
+
                     }
                     ::placeholder {
                         color: navy;
-                    }
-                    // !!!
-                    ::target-text {
-                        border: none;
                     }
                 }
 
@@ -240,6 +239,50 @@ button {
                     
                     .tools-button {
                         padding: 10px;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    .lists-pc {
+        display: none;
+        padding-top: 50px;
+        width: 100%;
+        min-height: calc(100vh - 200px);
+        border-right: 5px solid navy;
+        background-color: #7ee8fa;
+        background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+        text-align: center;
+
+        ul {
+            list-style: none;
+
+            li {
+                padding: 10px;
+                color: navy;
+                margin: 0 auto;
+
+                input {
+                    background: none;
+                    border: none;
+                    text-decoration: none;
+                    font-weight: bold;
+                    font-size: 18px;
+                    color: navy;
+
+                }
+                ::placeholder {
+                    color: navy;
+                }
+
+                .tools {
+                    margin-left: 3%;
+                    
+                    .tools-button {
+                        cursor: pointer;
+                        padding: 0 5px;
                         font-size: 16px;
                     }
                 }
@@ -261,20 +304,32 @@ button {
     }
 }
 
-@media (min-width: 576) {
+@media (min-width: 576px) {
     .header {
         h1 {
             font-size: 52px;
         }
     }
 
+    .aside {
+        input {
+            font-size: 24px;
+        }
+        ::placeholder {
+            font-size: 24px;
+        }
+    }
 }
 
 @media (min-width: 992px) {
 
+    .main {
+        overflow-y: auto;
+    }
+
     .nav {
         .menu, 
-        .menu-icon {
+        .icon {
             display: none;
         }
 
@@ -286,6 +341,7 @@ button {
     }
 
     .header {
+        position: fixed;
         width: 90%;
         background-image: url('../img/header-1280.jpg');
 
@@ -295,10 +351,20 @@ button {
     }
 
     .aside {
+        z-index: 0;
         position: relative;
+        left: 0;
+        display: inline-block;
+        top: 200px;
+        width: 30%;
+        overflow-y: auto;
 
         .lists-mobile {
             display: none;
+        }
+
+        .lists-pc {
+            display: inline-block;
         }
     }
 }
@@ -309,7 +375,21 @@ button {
         border: 5px solid navy;
         border-radius: 30px;
         box-shadow: 0 0 10px navy;
-        overflow: hidden;
+        overflow-x: hidden;        
+        min-height: auto;
         height: 90vh;
+    }
+
+    .header {
+        width: 1000px;
+    }
+
+    .aside {
+        min-height: auto;
+        height: calc(90vh - 200px - 10px);
+
+        .lists-pc {
+            min-height: calc(90vh - 200px - 10px);
+        }
     }
 }

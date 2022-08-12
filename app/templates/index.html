@@ -50,12 +50,31 @@
     </header>
     
     <aside class="aside">
-        <div class="lists-mobile ">
+        <div class="lists-mobile hide">
             <ul class="lists-list">
                 {% for i in range(15) %}
                     
                 <li>
-                    <a href="#"><input type="text" placeholder="test list" size="8" ></a>
+                    <a href="#"><input type="text" placeholder="test list" size="8" readonly></a>
+                    <span class="tools">
+                        <button class="tools-button">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="tools-button">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="lists-pc">
+            <ul class="lists-list">
+                {% for i in range(20) %}
+                    
+                <li>
+                    <a href="#"><input type="text" placeholder="test list" size="12" readonly></a>
                     <span class="tools">
                         <button class="tools-button">
                             <i class="fa-solid fa-pen"></i>
@@ -70,6 +89,5 @@
         </div>
 
     </aside>
-    <div style="height: 160vh; width: 100%"></div>
 </div>
 {% endblock content %}

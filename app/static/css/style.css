@@ -24,7 +24,9 @@ button {
   position: relative;
   width: 100%;
   max-width: 1200px;
+  min-height: 100vh;
   margin: 0px auto;
+  overflow-x: hidden;
 }
 
 .nav {
@@ -211,14 +213,54 @@ button {
 .aside .lists-mobile ul li a ::placeholder {
   color: navy;
 }
-.aside .lists-mobile ul li a ::target-text {
-  border: none;
-}
 .aside .lists-mobile ul li .tools {
   margin-left: 3%;
 }
 .aside .lists-mobile ul li .tools .tools-button {
   padding: 10px;
+  font-size: 16px;
+}
+.aside .lists-pc {
+  display: none;
+  padding-top: 50px;
+  width: 100%;
+  min-height: calc(100vh - 200px);
+  border-right: 5px solid navy;
+  background-color: #7ee8fa;
+  background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+  text-align: center;
+}
+.aside .lists-pc ul {
+  list-style: none;
+}
+.aside .lists-pc ul li {
+  padding: 10px;
+  color: navy;
+  margin: 0 auto;
+}
+.aside .lists-pc ul li input {
+  background: none;
+  border: none;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  color: navy;
+}
+.aside .lists-pc ul li ::-moz-placeholder {
+  color: navy;
+}
+.aside .lists-pc ul li :-ms-input-placeholder {
+  color: navy;
+}
+.aside .lists-pc ul li ::placeholder {
+  color: navy;
+}
+.aside .lists-pc ul li .tools {
+  margin-left: 3%;
+}
+.aside .lists-pc ul li .tools .tools-button {
+  cursor: pointer;
+  padding: 0 5px;
   font-size: 16px;
 }
 
@@ -231,14 +273,29 @@ button {
     font-size: 46px;
   }
 }
-@media (min-width: 576) {
+@media (min-width: 576px) {
   .header h1 {
     font-size: 52px;
   }
+  .aside input {
+    font-size: 24px;
+  }
+  .aside ::-moz-placeholder {
+    font-size: 24px;
+  }
+  .aside :-ms-input-placeholder {
+    font-size: 24px;
+  }
+  .aside ::placeholder {
+    font-size: 24px;
+  }
 }
 @media (min-width: 992px) {
+  .main {
+    overflow-y: auto;
+  }
   .nav .menu,
-.nav .menu-icon {
+.nav .icon {
     display: none;
   }
   .nav .bubble {
@@ -247,6 +304,7 @@ button {
     align-items: center;
   }
   .header {
+    position: fixed;
     width: 90%;
     background-image: url("../img/header-1280.jpg");
   }
@@ -254,10 +312,19 @@ button {
     margin-left: 25%;
   }
   .aside {
+    z-index: 0;
     position: relative;
+    left: 0;
+    display: inline-block;
+    top: 200px;
+    width: 30%;
+    overflow-y: auto;
   }
   .aside .lists-mobile {
     display: none;
+  }
+  .aside .lists-pc {
+    display: inline-block;
   }
 }
 @media (min-width: 1200px) {
@@ -266,7 +333,18 @@ button {
     border: 5px solid navy;
     border-radius: 30px;
     box-shadow: 0 0 10px navy;
-    overflow: hidden;
+    overflow-x: hidden;
+    min-height: auto;
     height: 90vh;
+  }
+  .header {
+    width: 1000px;
+  }
+  .aside {
+    min-height: auto;
+    height: calc(90vh - 200px - 10px);
+  }
+  .aside .lists-pc {
+    min-height: calc(90vh - 200px - 10px);
   }
 }/*# sourceMappingURL=style.css.map */
