@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+*:focus {
+  outline-style: none;
+}
+
 body {
   background-color: #20bf55;
   background-image: linear-gradient(315deg, #20bf55 0%, #01baef 74%);
@@ -147,7 +151,9 @@ button {
   height: 200px;
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-image: url("../img/header-640.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -161,13 +167,18 @@ button {
   box-shadow: 0 0 10px black;
 }
 .header h1 {
-  margin: auto;
+  margin-top: 20px;
   z-index: 1;
   color: #eee;
   font-size: 40px;
 }
 .header h1 span {
   color: deepskyblue;
+}
+.header h2 {
+  margin-top: 10px;
+  color: #eee;
+  z-index: 1;
 }
 
 .aside {
@@ -203,6 +214,7 @@ button {
   font-weight: bold;
   font-size: 18px;
   color: navy;
+  width: 40%;
 }
 .aside .lists-mobile ul li a ::-moz-placeholder {
   color: navy;
@@ -234,34 +246,93 @@ button {
   list-style: none;
 }
 .aside .lists-pc ul li {
-  padding: 10px;
   color: navy;
   margin: 0 auto;
+  padding: 10px;
 }
-.aside .lists-pc ul li input {
+.aside .lists-pc ul li a input {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  resize: none;
+  outline: none;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  color: navy;
+  width: 50%;
+  height: 22px;
+}
+.aside .lists-pc ul li a ::-moz-placeholder {
+  font-size: 20px;
+  color: navy;
+  border: none;
+}
+.aside .lists-pc ul li a :-ms-input-placeholder {
+  font-size: 20px;
+  color: navy;
+  border: none;
+}
+.aside .lists-pc ul li a ::placeholder {
+  font-size: 20px;
+  color: navy;
+  border: none;
+}
+.aside .lists-pc ul li .tools {
+  margin-left: 1%;
+}
+.aside .lists-pc ul li .tools .tools-button {
+  cursor: pointer;
+  padding: 0 10px;
+  font-size: 16px;
+}
+
+.main-list li {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 10px;
+  color: navy;
+  background-color: lightgray;
+  border-bottom: 3px solid darkslategray;
+  font-size: 18px;
+}
+.main-list li input {
+  cursor: default;
   background: none;
   border: none;
   text-decoration: none;
   font-weight: bold;
   font-size: 18px;
   color: navy;
+  width: 70%;
 }
-.aside .lists-pc ul li ::-moz-placeholder {
+.main-list li ::-moz-placeholder {
   color: navy;
+  font-size: 18px;
 }
-.aside .lists-pc ul li :-ms-input-placeholder {
+.main-list li :-ms-input-placeholder {
   color: navy;
+  font-size: 18px;
 }
-.aside .lists-pc ul li ::placeholder {
+.main-list li ::placeholder {
   color: navy;
+  font-size: 18px;
 }
-.aside .lists-pc ul li .tools {
-  margin-left: 3%;
-}
-.aside .lists-pc ul li .tools .tools-button {
+.main-list li .tools .tools-button {
   cursor: pointer;
-  padding: 0 5px;
+  padding: 6px;
   font-size: 16px;
+}
+.main-list .add-task input {
+  cursor: auto;
+}
+.main-list .add-task .tools-button {
+  padding: 4px;
+  margin-right: 28px;
+}
+.main-list .add-task .tools-button i {
+  font-size: 20px;
 }
 
 .show-aside {
@@ -289,10 +360,26 @@ button {
   .aside ::placeholder {
     font-size: 24px;
   }
+  .main-list li {
+    margin: 15px 25px;
+    border: 2px solid darkslategray;
+    border-radius: 20px;
+  }
 }
 @media (min-width: 992px) {
-  .main {
-    overflow-y: auto;
+  ::-webkit-scrollbar {
+    position: relative;
+    background-color: transparent;
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: relative;
+    left: 3px;
+    border-radius: 5px;
+  }
+  .nav {
+    position: fixed;
   }
   .nav .menu,
 .nav .icon {
@@ -309,15 +396,22 @@ button {
     background-image: url("../img/header-1280.jpg");
   }
   .header h1 {
-    margin-left: 25%;
+    margin-right: 15%;
+  }
+  .header h2 {
+    margin-right: 15%;
+  }
+  .list-content {
+    display: flex;
   }
   .aside {
     z-index: 0;
     position: relative;
     left: 0;
-    display: inline-block;
     top: 200px;
+    display: inline-block;
     width: 30%;
+    height: calc(100vh - 200px);
     overflow-y: auto;
   }
   .aside .lists-mobile {
@@ -326,16 +420,39 @@ button {
   .aside .lists-pc {
     display: inline-block;
   }
+  .main-list {
+    display: inline-block;
+    position: relative;
+    top: 200px;
+    width: 70%;
+    height: calc(100vh - 200px);
+    padding-top: 50px;
+    overflow-y: auto;
+  }
+  .main-list .tasks-list {
+    margin-bottom: 20px;
+  }
+  .main-list .tasks-list .tools .tools-button {
+    padding: 10px;
+  }
+  .main-list .tasks-list .add-task .tools-button {
+    margin-right: 38px;
+  }
 }
 @media (min-width: 1200px) {
   .main {
     margin: 5vh auto;
     border: 5px solid navy;
-    border-radius: 30px;
+    border-top-right-radius: 80px;
+    border-bottom-left-radius: 80px;
     box-shadow: 0 0 10px navy;
     overflow-x: hidden;
     min-height: auto;
     height: 90vh;
+  }
+  .nav {
+    position: -webkit-sticky;
+    position: sticky;
   }
   .header {
     width: 1000px;
@@ -345,6 +462,13 @@ button {
     height: calc(90vh - 200px - 10px);
   }
   .aside .lists-pc {
+    min-height: calc(90vh - 200px - 10px);
+  }
+  .main-list {
+    min-height: auto;
+    height: calc(90vh - 200px - 10px);
+  }
+  .main-list .tasks-list {
     min-height: calc(90vh - 200px - 10px);
   }
 }/*# sourceMappingURL=style.css.map */

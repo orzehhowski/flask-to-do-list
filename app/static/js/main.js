@@ -1,5 +1,3 @@
-let contentHidden = false
-
 const toggleBurgerMenu = () => {
     const burgerIcon = document.querySelector('.bars-icon')
     const xMark = document.querySelector('.xmark-icon-menu')
@@ -18,7 +16,7 @@ const toggleListMenu = () => {
     const aside = document.querySelector('.aside')
     const arrow = document.querySelector('.right-arrow-icon')
     const mobileAside = aside.querySelector('.lists-mobile')
-    let content = document.querySelectorAll('.main > *')
+    let content = document.querySelector('.main-list')
 
     if (mobileAside.matches('.hide')) {
         mobileAside.classList.toggle('hide')
@@ -32,24 +30,14 @@ const toggleListMenu = () => {
     xMark.classList.toggle('hide')
     arrow.classList.toggle('hide')
 
-    if (contentHidden) {
-        toggleContentDisplay(content)
-        contentHidden = false
-    } else {
-        setTimeout(toggleContentDisplay, 300, content)
+    if (content.matches('.hide')) {
+        content.classList.toggle('hide')
         contentHidden = true
+    } else {
+        setTimeout(() => content.classList.toggle('hide'), 300)
+        contentHidden = false
     }
 }
-
-const toggleContentDisplay = (content) => {
-    content.forEach(el => {
-        if (! (el.matches('.aside') || el.matches('.nav'))) {
-            el.classList.toggle('hide')
-        }
-    })
-}
-
-
 
 const main = () => {
     const menuIcons = document.querySelectorAll('.menu-icon')

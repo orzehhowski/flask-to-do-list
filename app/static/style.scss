@@ -3,6 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+*:focus {
+    outline-style: none;
+}
 
 body {
     background-color: #20bf55;
@@ -167,7 +170,9 @@ button {
     height: 200px;
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     background-image: url('../img/header-640.jpg');
     background-repeat: no-repeat;
     background-position: center;
@@ -182,7 +187,7 @@ button {
     }
 
     h1 {
-        margin: auto;
+        margin-top: 20px;
         z-index: 1;
         color: #eee;
         font-size: 40px;
@@ -190,6 +195,11 @@ button {
         span {
             color: deepskyblue;
         }
+    }
+    h2 {
+        margin-top: 10px;
+        color: #eee;
+        z-index: 1;
     }
 }
 
@@ -227,7 +237,7 @@ button {
                         font-weight: bold;
                         font-size: 18px;
                         color: navy;
-
+                        width: 40%;
                     }
                     ::placeholder {
                         color: navy;
@@ -258,41 +268,101 @@ button {
 
         ul {
             list-style: none;
-
             li {
-                padding: 10px;
                 color: navy;
                 margin: 0 auto;
+                padding: 10px;
 
-                input {
-                    background: none;
-                    border: none;
-                    text-decoration: none;
-                    font-weight: bold;
-                    font-size: 18px;
-                    color: navy;
+                a {
+                    
+                    input {
+                        cursor: pointer;
+                        background-color: transparent;
+                        border: none;
+                        resize: none;
+                        outline: none;
+                        text-decoration: none;
+                        font-weight: bold;
+                        font-size: 20px;
+                        color: navy;
+                        width: 50%;
+                        height: 22px;
+                        }
 
+                    ::placeholder {
+                        font-size: 20px;
+                        color: navy;
+                        border: none;
+                    }
                 }
-                ::placeholder {
-                    color: navy;
-                }
-
+                    
                 .tools {
-                    margin-left: 3%;
+                    margin-left: 1%;
                     
                     .tools-button {
                         cursor: pointer;
-                        padding: 0 5px;
+                        padding: 0 10px;
                         font-size: 16px;
                     }
                 }
             }
         }
     }
-
 }
+
+.main-list {
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+        padding: 10px;
+        color: navy;
+        background-color: lightgray;
+        border-bottom: 3px solid darkslategray;
+        font-size: 18px;
+
+        input {
+            cursor: default;
+            background: none;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            color: navy;
+            width: 70%;
+
+        }
+        ::placeholder {
+            color: navy;
+            font-size: 18px;
+        }
+        
+        .tools {
+            .tools-button {
+                cursor: pointer;
+                padding: 6px;
+                font-size: 16px;
+            }
+        }
+    }
+
+    .add-task {
+        input {
+            cursor: auto;
+        }
+
+        .tools-button {
+            padding: 4px;
+            margin-right: 28px;
+            i {
+                font-size: 20px;
+            }
+        }
+    }
+}
+
 .show-aside {
-    // display: inline-block;
     transform: translateX(150%);
 }
 
@@ -319,15 +389,34 @@ button {
             font-size: 24px;
         }
     }
+
+    .main-list {
+        li {
+            margin: 15px 25px;
+            border: 2px solid darkslategray;
+            border-radius: 20px;
+
+        }
+    }
 }
 
 @media (min-width: 992px) {
 
-    .main {
-        overflow-y: auto;
+    ::-webkit-scrollbar {
+        position: relative;
+        background-color: transparent;
+        width: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        position: relative;
+        left: 3px;
+        border-radius: 5px;
     }
 
     .nav {
+        position: fixed;
         .menu, 
         .icon {
             display: none;
@@ -346,17 +435,25 @@ button {
         background-image: url('../img/header-1280.jpg');
 
         h1 {
-            margin-left: 25%;
+            margin-right: 15%;
         }
+        h2 {
+            margin-right: 15%;
+        }
+    }
+
+    .list-content {
+        display: flex;
     }
 
     .aside {
         z-index: 0;
         position: relative;
         left: 0;
-        display: inline-block;
         top: 200px;
+        display: inline-block;
         width: 30%;
+        height: calc(100vh - 200px);
         overflow-y: auto;
 
         .lists-mobile {
@@ -367,17 +464,48 @@ button {
             display: inline-block;
         }
     }
+
+    .main-list {
+        display: inline-block;
+        position: relative;
+        top: 200px;
+        width: 70%;
+        height: calc(100vh - 200px);
+        padding-top: 50px;
+        overflow-y: auto;
+
+        .tasks-list {
+            margin-bottom: 20px;
+
+            .tools {
+                .tools-button {
+                    padding: 10px;
+                }
+            }
+            
+            .add-task {
+                .tools-button {
+                    margin-right: 38px;
+                }
+            }
+        }
+    }
 }
 
 @media (min-width: 1200px) {
     .main {
         margin: 5vh auto;
         border: 5px solid navy;
-        border-radius: 30px;
+        border-top-right-radius: 80px;
+        border-bottom-left-radius: 80px;
         box-shadow: 0 0 10px navy;
-        overflow-x: hidden;        
+        overflow-x: hidden;
         min-height: auto;
         height: 90vh;
+    }
+
+    .nav {
+        position: sticky;
     }
 
     .header {
@@ -389,6 +517,15 @@ button {
         height: calc(90vh - 200px - 10px);
 
         .lists-pc {
+            min-height: calc(90vh - 200px - 10px);
+        }
+    }
+
+    .main-list {
+        min-height: auto;
+        height: calc(90vh - 200px - 10px);
+
+        .tasks-list {
             min-height: calc(90vh - 200px - 10px);
         }
     }

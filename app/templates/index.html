@@ -47,17 +47,19 @@
     <header class="header">
         <div class="shadow"></div>
         <h1>ToDo <span>List</span></h1>
+        <h2>list name</h2>
     </header>
-    
-    <aside class="aside">
-        <div class="lists-mobile hide">
-            <ul class="lists-list">
-                {% for i in range(15) %}
+    <div class="list-content">
+
+        <aside class="aside">
+            <div class="lists-mobile hide">
+                <ul class="lists-list">
+                    {% for i in range(15) %}
                     
-                <li>
-                    <a href="#"><input type="text" placeholder="test list" size="8" readonly></a>
-                    <span class="tools">
-                        <button class="tools-button">
+                    <li>
+                        <a href="#"><input type="text" placeholder="test list" size="8" readonly></a>
+                        <span class="tools">
+                            <button class="tools-button">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                         <button class="tools-button">
@@ -68,11 +70,11 @@
                 {% endfor %}
             </ul>
         </div>
-
+        
         <div class="lists-pc">
             <ul class="lists-list">
                 {% for i in range(20) %}
-                    
+                
                 <li>
                     <a href="#"><input type="text" placeholder="test list" size="12" readonly></a>
                     <span class="tools">
@@ -87,7 +89,37 @@
                 {% endfor %}
             </ul>
         </div>
-
-    </aside>
+            
+        </aside>
+        
+        <section class="main-list">
+            <ul class="tasks-list">
+                <li class="task add-task">
+                    <input type="text" placeholder="type task name...">
+                    <span class="tools">
+                        <button class="tools-button">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </span>
+                </li>
+                {% for i in range(15) %}
+                <li class="task">
+                    <input type="text" placeholder="test list"  readonly>
+                    <span class="tools">
+                        <button class="tools-button">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button class="tools-button">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="tools-button">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
 </div>
 {% endblock content %}
