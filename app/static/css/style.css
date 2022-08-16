@@ -9,8 +9,7 @@
 }
 
 body {
-  background-color: #20bf55;
-  background-image: linear-gradient(315deg, #20bf55 0%, #01baef 74%);
+  background-color: antiquewhite;
   font-family: "Open Sans", sans-serif;
   background-repeat: no-repeat;
 }
@@ -53,10 +52,10 @@ button {
   color: deepskyblue;
 }
 .nav .icon .fa-xmark {
-  color: navy;
+  color: black;
 }
 .nav .icon .fa-angle-right {
-  color: forestgreen;
+  color: deepskyblue;
 }
 .nav .menu-icon {
   right: 0;
@@ -106,8 +105,8 @@ button {
   bottom: -240px;
   right: -50px;
   width: 400px;
-  background-color: navy;
-  box-shadow: 0 0 10px navy;
+  background-color: black;
+  box-shadow: 0 0 10px black;
 }
 .nav .main-bubble .main-link {
   padding-top: 190px;
@@ -120,8 +119,8 @@ button {
   top: 220px;
   left: 160px;
   width: 220px;
-  background-color: deepskyblue;
-  box-shadow: 0 0 10px deepskyblue;
+  background-color: #601111;
+  box-shadow: 0 0 10px #601111;
 }
 .nav .logout-bubble .logout-link {
   padding-top: 70px;
@@ -133,8 +132,8 @@ button {
   width: 200px;
   top: 260px;
   left: 30px;
-  background-color: dodgerblue;
-  box-shadow: 0 0 10px dodgerblue;
+  background-color: #921212;
+  box-shadow: 0 0 10px #921212;
 }
 .nav .author-bubble .author-link {
   padding-top: 50px;
@@ -142,7 +141,7 @@ button {
   font-size: 22px;
 }
 .nav a:hover {
-  color: mediumseagreen;
+  color: gold;
 }
 
 .header {
@@ -194,8 +193,8 @@ button {
   top: 0;
   padding-top: 90px;
   min-height: 100vh;
-  background-color: #7ee8fa;
-  background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+  background-color: #ffac81;
+  background-image: linear-gradient(315deg, #ffac81 0%, #ff928b 74%);
   text-align: center;
 }
 .aside .lists-mobile ul {
@@ -203,7 +202,7 @@ button {
 }
 .aside .lists-mobile ul li {
   padding: 10px;
-  color: navy;
+  color: black;
   font-size: 18px;
   margin: 0 auto;
 }
@@ -213,17 +212,17 @@ button {
   text-decoration: none;
   font-weight: bold;
   font-size: 18px;
-  color: navy;
+  color: black;
   width: 40%;
 }
 .aside .lists-mobile ul li a ::-moz-placeholder {
-  color: navy;
+  color: black;
 }
 .aside .lists-mobile ul li a :-ms-input-placeholder {
-  color: navy;
+  color: black;
 }
 .aside .lists-mobile ul li a ::placeholder {
-  color: navy;
+  color: black;
 }
 .aside .lists-mobile ul li .tools {
   margin-left: 3%;
@@ -237,16 +236,16 @@ button {
   padding-top: 50px;
   width: 100%;
   min-height: calc(100vh - 200px);
-  border-right: 5px solid navy;
-  background-color: #7ee8fa;
-  background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+  border-right: 5px solid black;
+  background-color: #ffac81;
+  background-image: linear-gradient(315deg, #ffac81 0%, #ff928b 74%);
   text-align: center;
 }
 .aside .lists-pc ul {
   list-style: none;
 }
 .aside .lists-pc ul li {
-  color: navy;
+  color: black;
   margin: 0 auto;
   padding: 10px;
 }
@@ -259,24 +258,38 @@ button {
   text-decoration: none;
   font-weight: bold;
   font-size: 20px;
-  color: navy;
+  color: black;
   width: 50%;
   height: 22px;
 }
 .aside .lists-pc ul li a ::-moz-placeholder {
+  -moz-transition: color 0.25s;
+  transition: color 0.25s;
   font-size: 20px;
-  color: navy;
+  color: black;
   border: none;
 }
 .aside .lists-pc ul li a :-ms-input-placeholder {
+  -ms-transition: color 0.25s;
+  transition: color 0.25s;
   font-size: 20px;
-  color: navy;
+  color: black;
   border: none;
 }
 .aside .lists-pc ul li a ::placeholder {
+  transition: color 0.25s;
   font-size: 20px;
-  color: navy;
+  color: black;
   border: none;
+}
+.aside .lists-pc ul li a:hover ::-moz-placeholder {
+  color: gold;
+}
+.aside .lists-pc ul li a:hover :-ms-input-placeholder {
+  color: gold;
+}
+.aside .lists-pc ul li a:hover ::placeholder {
+  color: gold;
 }
 .aside .lists-pc ul li .tools {
   margin-left: 1%;
@@ -285,6 +298,10 @@ button {
   cursor: pointer;
   padding: 0 10px;
   font-size: 16px;
+  transition: color 0.25s;
+}
+.aside .lists-pc ul li .tools .tools-button:hover {
+  color: gold;
 }
 
 .main-list li {
@@ -292,7 +309,7 @@ button {
   justify-content: space-between;
   margin: 0;
   padding: 10px;
-  color: navy;
+  color: black;
   background-color: lightgray;
   border-bottom: 3px solid darkslategray;
   font-size: 18px;
@@ -304,25 +321,29 @@ button {
   text-decoration: none;
   font-weight: bold;
   font-size: 18px;
-  color: navy;
+  color: black;
   width: 70%;
 }
 .main-list li ::-moz-placeholder {
-  color: navy;
+  color: black;
   font-size: 18px;
 }
 .main-list li :-ms-input-placeholder {
-  color: navy;
+  color: black;
   font-size: 18px;
 }
 .main-list li ::placeholder {
-  color: navy;
+  color: black;
   font-size: 18px;
 }
 .main-list li .tools .tools-button {
   cursor: pointer;
   padding: 6px;
   font-size: 16px;
+  transition: color 0.25s;
+}
+.main-list li .tools .tools-button:hover {
+  color: #921212;
 }
 .main-list .add-task input {
   cursor: auto;
@@ -360,8 +381,11 @@ button {
   .aside ::placeholder {
     font-size: 24px;
   }
+  .main-list {
+    padding-top: 30px;
+  }
   .main-list li {
-    margin: 15px 25px;
+    margin: 15px 8%;
     border: 2px solid darkslategray;
     border-radius: 20px;
   }
@@ -442,10 +466,10 @@ button {
 @media (min-width: 1200px) {
   .main {
     margin: 5vh auto;
-    border: 5px solid navy;
+    border: 5px solid black;
     border-top-right-radius: 80px;
     border-bottom-left-radius: 80px;
-    box-shadow: 0 0 10px navy;
+    box-shadow: 0 0 10px black;
     overflow-x: hidden;
     min-height: auto;
     height: 90vh;

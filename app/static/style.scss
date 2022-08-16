@@ -1,3 +1,5 @@
+@use '_colors' as c;
+
 * {
     margin: 0;
     padding: 0;
@@ -8,8 +10,7 @@
 }
 
 body {
-    background-color: #20bf55;
-    background-image: linear-gradient(315deg, #20bf55 0%, #01baef 74%);
+    background-color: c.$bg;
     font-family: 'Open Sans', sans-serif;
     background-repeat: no-repeat;
 }
@@ -49,15 +50,15 @@ button {
         }
 
         .fa-bars {
-            color: deepskyblue;
+            color: c.$blue;
         }
 
         .fa-xmark {
-            color: navy;
+            color: c.$black;
         }
 
         .fa-angle-right {
-            color: forestgreen;
+            color: c.$blue;
         }
     }
 
@@ -118,8 +119,8 @@ button {
         bottom: -240px;
         right: -50px;
         width: 400px;
-        background-color: navy;
-        box-shadow: 0 0 10px navy;
+        background-color: c.$black;
+        box-shadow: 0 0 10px c.$black;
 
         .main-link {
             padding-top: 190px;
@@ -134,8 +135,8 @@ button {
         top: 220px;
         left: 160px;
         width: 220px;
-        background-color: deepskyblue;
-        box-shadow: 0 0 10px deepskyblue;
+        background-color: c.$darkbrown;
+        box-shadow: 0 0 10px c.$darkbrown;
 
         .logout-link {
             padding-top: 70px;
@@ -149,8 +150,8 @@ button {
         width: 200px;
         top: 260px;
         left: 30px;
-        background-color: dodgerblue;
-        box-shadow: 0 0 10px dodgerblue;
+        background-color: c.$darkred;
+        box-shadow: 0 0 10px c.$darkred;
 
         .author-link {
             padding-top: 50px;
@@ -160,7 +161,7 @@ button {
     }
 
     a:hover {
-        color: mediumseagreen;
+        color: c.$gold;
     }
 }
 
@@ -193,7 +194,7 @@ button {
         font-size: 40px;
 
         span {
-            color: deepskyblue;
+            color: c.$blue;
         }
     }
     h2 {
@@ -217,15 +218,16 @@ button {
         top: 0;
         padding-top: 90px;
         min-height: 100vh;
-        background-color: #7ee8fa;
-        background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+        background-color: #ffac81;
+        background-image: linear-gradient(315deg, #ffac81 0%, #ff928b 74%);
+
         text-align: center;
         
         ul {
             list-style: none;
             li {
                 padding: 10px;
-                color: navy;
+                color: c.$black;
                 font-size: 18px;
                 margin: 0 auto;
 
@@ -236,11 +238,11 @@ button {
                         text-decoration: none;
                         font-weight: bold;
                         font-size: 18px;
-                        color: navy;
+                        color: c.$black;
                         width: 40%;
                     }
                     ::placeholder {
-                        color: navy;
+                        color: c.$black;
                     }
                 }
 
@@ -261,20 +263,20 @@ button {
         padding-top: 50px;
         width: 100%;
         min-height: calc(100vh - 200px);
-        border-right: 5px solid navy;
-        background-color: #7ee8fa;
-        background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+        border-right: 5px solid c.$black;
+        background-color: #ffac81;
+        background-image: linear-gradient(315deg, #ffac81 0%, #ff928b 74%);
+
         text-align: center;
 
         ul {
             list-style: none;
             li {
-                color: navy;
+                color: c.$black;
                 margin: 0 auto;
                 padding: 10px;
 
                 a {
-                    
                     input {
                         cursor: pointer;
                         background-color: transparent;
@@ -284,15 +286,22 @@ button {
                         text-decoration: none;
                         font-weight: bold;
                         font-size: 20px;
-                        color: navy;
+                        color: c.$black;
                         width: 50%;
                         height: 22px;
                         }
 
                     ::placeholder {
+                        transition: color 0.25s;
                         font-size: 20px;
-                        color: navy;
+                        color: c.$black;
                         border: none;
+                    }
+                }
+
+                a:hover {
+                    ::placeholder {
+                        color: c.$gold;
                     }
                 }
                     
@@ -303,6 +312,11 @@ button {
                         cursor: pointer;
                         padding: 0 10px;
                         font-size: 16px;
+                        transition: color 0.25s;
+                    }
+
+                    .tools-button:hover {
+                        color: c.$gold;
                     }
                 }
             }
@@ -317,9 +331,9 @@ button {
         justify-content: space-between;
         margin: 0;
         padding: 10px;
-        color: navy;
-        background-color: lightgray;
-        border-bottom: 3px solid darkslategray;
+        color: c.$black;
+        background-color: c.$lightgray;
+        border-bottom: 3px solid c.$gray;
         font-size: 18px;
 
         input {
@@ -329,12 +343,12 @@ button {
             text-decoration: none;
             font-weight: bold;
             font-size: 18px;
-            color: navy;
+            color: c.$black;
             width: 70%;
 
         }
         ::placeholder {
-            color: navy;
+            color: c.$black;
             font-size: 18px;
         }
         
@@ -343,7 +357,13 @@ button {
                 cursor: pointer;
                 padding: 6px;
                 font-size: 16px;
-            }
+                transition: color 0.25s;
+                }
+
+                .tools-button:hover {
+                    color: c.$darkred;
+                }
+            
         }
     }
 
@@ -391,9 +411,11 @@ button {
     }
 
     .main-list {
+        padding-top: 30px;
+
         li {
-            margin: 15px 25px;
-            border: 2px solid darkslategray;
+            margin: 15px 8%;
+            border: 2px solid c.$gray;
             border-radius: 20px;
 
         }
@@ -495,10 +517,10 @@ button {
 @media (min-width: 1200px) {
     .main {
         margin: 5vh auto;
-        border: 5px solid navy;
+        border: 5px solid c.$black;
         border-top-right-radius: 80px;
         border-bottom-left-radius: 80px;
-        box-shadow: 0 0 10px navy;
+        box-shadow: 0 0 10px c.$black;
         overflow-x: hidden;
         min-height: auto;
         height: 90vh;

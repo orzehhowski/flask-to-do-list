@@ -1,7 +1,8 @@
 from app import app
 from app.forms import LoginForm, RegistrationForm
 from flask import render_template, redirect
-from flask_login import login_required
+from flask_login import current_user, login_required, login_user, logout_user
+
 
 # @login_required
 @app.route('/')
@@ -15,7 +16,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         pass
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout')
