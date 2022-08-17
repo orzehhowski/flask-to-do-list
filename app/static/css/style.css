@@ -8,6 +8,10 @@
   outline-style: none;
 }
 
+i {
+  pointer-events: none;
+}
+
 body {
   background-color: antiquewhite;
   font-family: "Open Sans", sans-serif;
@@ -188,6 +192,11 @@ button {
   width: 100%;
   transition: transform 0.3s;
 }
+.aside .lists-errors {
+  font-weight: bold;
+  padding-bottom: 10px;
+  font-size: 20px;
+}
 .aside .lists-mobile {
   position: relative;
   top: 0;
@@ -206,7 +215,7 @@ button {
   font-size: 18px;
   margin: 0 auto;
 }
-.aside .lists-mobile ul li a input {
+.aside .lists-mobile ul li input {
   background: none;
   border: none;
   text-decoration: none;
@@ -215,13 +224,13 @@ button {
   color: black;
   width: 40%;
 }
-.aside .lists-mobile ul li a ::-moz-placeholder {
+.aside .lists-mobile ul li ::-moz-placeholder {
   color: black;
 }
-.aside .lists-mobile ul li a :-ms-input-placeholder {
+.aside .lists-mobile ul li :-ms-input-placeholder {
   color: black;
 }
-.aside .lists-mobile ul li a ::placeholder {
+.aside .lists-mobile ul li ::placeholder {
   color: black;
 }
 .aside .lists-mobile ul li .tools {
@@ -230,6 +239,15 @@ button {
 .aside .lists-mobile ul li .tools .tools-button {
   padding: 10px;
   font-size: 16px;
+}
+.aside .lists-mobile ul .add-list ::-moz-placeholder {
+  color: darkslategray;
+}
+.aside .lists-mobile ul .add-list :-ms-input-placeholder {
+  color: darkslategray;
+}
+.aside .lists-mobile ul .add-list ::placeholder {
+  color: darkslategray;
 }
 .aside .lists-pc {
   display: none;
@@ -249,7 +267,7 @@ button {
   margin: 0 auto;
   padding: 10px;
 }
-.aside .lists-pc ul li a input {
+.aside .lists-pc ul li input {
   cursor: pointer;
   background-color: transparent;
   border: none;
@@ -262,21 +280,21 @@ button {
   width: 50%;
   height: 22px;
 }
-.aside .lists-pc ul li a ::-moz-placeholder {
+.aside .lists-pc ul li ::-moz-placeholder {
   -moz-transition: color 0.25s;
   transition: color 0.25s;
   font-size: 20px;
   color: black;
   border: none;
 }
-.aside .lists-pc ul li a :-ms-input-placeholder {
+.aside .lists-pc ul li :-ms-input-placeholder {
   -ms-transition: color 0.25s;
   transition: color 0.25s;
   font-size: 20px;
   color: black;
   border: none;
 }
-.aside .lists-pc ul li a ::placeholder {
+.aside .lists-pc ul li ::placeholder {
   transition: color 0.25s;
   font-size: 20px;
   color: black;
@@ -302,6 +320,21 @@ button {
 }
 .aside .lists-pc ul li .tools .tools-button:hover {
   color: gold;
+}
+.aside .lists-pc ul .add-list .tools {
+  margin-left: calc(1% + 40.16px);
+}
+.aside .lists-pc ul .add-list ::-moz-placeholder {
+  color: darkslategray;
+}
+.aside .lists-pc ul .add-list :-ms-input-placeholder {
+  color: darkslategray;
+}
+.aside .lists-pc ul .add-list ::placeholder {
+  color: darkslategray;
+}
+.aside .lists-pc ul .add-list input {
+  cursor: auto;
 }
 
 .main-list li {
@@ -348,9 +381,17 @@ button {
 .main-list .add-task input {
   cursor: auto;
 }
+.main-list .add-task ::-moz-placeholder {
+  color: darkslategray;
+}
+.main-list .add-task :-ms-input-placeholder {
+  color: darkslategray;
+}
+.main-list .add-task ::placeholder {
+  color: darkslategray;
+}
 .main-list .add-task .tools-button {
   padding: 4px;
-  margin-right: 28px;
 }
 .main-list .add-task .tools-button i {
   font-size: 20px;
@@ -358,6 +399,52 @@ button {
 
 .show-aside {
   transform: translateX(150%);
+}
+
+.form {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  margin: 10vh auto;
+  padding: 20px;
+}
+.form input {
+  border: 2px solid darkslategray;
+  border-radius: 5px;
+}
+.form input[type=text],
+.form input[type=password] {
+  height: 24px;
+  font-size: 14px;
+}
+.form p {
+  margin-top: 5px;
+  text-align: center;
+}
+.form .outher-p {
+  margin-top: 20px;
+}
+.form .error-info {
+  color: tomato;
+  font-weight: bold;
+}
+.form input[type=submit] {
+  margin-top: 20px;
+  width: 100px;
+  height: 30px;
+  background-color: deepskyblue;
+  font-size: 16px;
+  font-weight: bold;
+}
+.form a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
 }
 
 @media (min-width: 376px) {
@@ -388,6 +475,11 @@ button {
     margin: 15px 8%;
     border: 2px solid darkslategray;
     border-radius: 20px;
+  }
+  .form {
+    border: 3px solid darkslategray;
+    border-radius: 30px;
+    box-shadow: 0 0 5px darkslategray;
   }
 }
 @media (min-width: 992px) {
@@ -459,9 +551,6 @@ button {
   .main-list .tasks-list .tools .tools-button {
     padding: 10px;
   }
-  .main-list .tasks-list .add-task .tools-button {
-    margin-right: 38px;
-  }
 }
 @media (min-width: 1200px) {
   .main {
@@ -491,8 +580,5 @@ button {
   .main-list {
     min-height: auto;
     height: calc(90vh - 200px - 10px);
-  }
-  .main-list .tasks-list {
-    min-height: calc(90vh - 200px - 10px);
   }
 }/*# sourceMappingURL=style.css.map */

@@ -1,12 +1,12 @@
 from email.policy import default
-from app import app, db
+from app import app, db, login
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 
-class User(db.Model, UserMixin):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(32), index=True)
+    username = db.Column(db.String(32), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 
     lists = db.relationship('List', backref='author', lazy='dynamic')
@@ -39,3 +39,9 @@ class Task(db.Model):
 
     def __repr__(self):
         return f'<Task {self.id} from List {self.list_id}>'
+
+
+@login.user_loader
+def load_usser(id):
+    # id from flask-login is string
+    return User.query.get(int(id))

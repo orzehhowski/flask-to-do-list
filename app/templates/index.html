@@ -2,6 +2,10 @@
 
 {% block content %}
 <div class="main">
+
+    <div class="error-popup">
+
+    </div>
     <nav class="nav">
         <!-- mobile nav -->
         <button class="icon menu-icon bars-icon">
@@ -53,66 +57,93 @@
 
         <aside class="aside">
             <div class="lists-mobile hide">
+                <div class="lists-errors">
+                    <p></p>
+                </div>
+                
                 <ul class="lists-list">
-                    {% for i in range(15) %}
+                    {% for l in lists %}
                     
                     <li>
-                        <a href="#"><input type="text" placeholder="test list" size="8" readonly></a>
+                        <a href="#"><input type="text" placeholder="{{ l.name }}" size="8" readonly></a>
                         <span class="tools">
-                            <button class="tools-button">
+                            <button class="tools-button edit-list-button">
                             <i class="fa-solid fa-pen"></i>
                         </button>
-                        <button class="tools-button">
+                        <button class="tools-button delete-list-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </span>
                 </li>
                 {% endfor %}
+                <li class="add-list">
+                    <input type="text" placeholder="type list name..." size="8">
+                    <span class="tools">
+                        <button class="tools-button">
+                            <i style="color:transparent" class="fa-solid fa-plus"></i>
+                        </button>
+                        <button class="tools-button add-list-button">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </span>
+                </li>
             </ul>
         </div>
         
         <div class="lists-pc">
+            <div class="lists-errors">
+                <p></p>
+            </div>
+
             <ul class="lists-list">
-                {% for i in range(20) %}
+                {% for l in lists %}
                 
                 <li>
-                    <a href="#"><input type="text" placeholder="test list" size="12" readonly></a>
+                    <a href="#"><input type="text" placeholder="{{ l.name }}" size="12" readonly></a>
                     <span class="tools">
-                        <button class="tools-button">
+                        <button class="tools-button edit-list-button">
                             <i class="fa-solid fa-pen"></i>
                         </button>
-                        <button class="tools-button">
+                        <button class="tools-button delete-list-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </span>
                 </li>
                 {% endfor %}
+                <li class="add-list">
+                    <input type="text" placeholder="type list name..." size="12">
+                    <span class="tools">
+                        <button class="tools-button add-list-button">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </span>
+                </li>
             </ul>
         </div>
-            
+
         </aside>
-        
+
         <section class="main-list">
             <ul class="tasks-list">
                 <li class="task add-task">
                     <input type="text" placeholder="type task name...">
                     <span class="tools">
-                        <button class="tools-button">
+                        <button class="tools-button add-task-button">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </span>
                 </li>
-                {% for i in range(15) %}
+                {% for i in range(5) %}
                 <li class="task">
                     <input type="text" placeholder="test list"  readonly>
                     <span class="tools">
-                        <button class="tools-button">
+                        <button class="tools-button task-done-button">
                             <i class="fa-solid fa-check"></i>
                         </button>
-                        <button class="tools-button">
+                        <button class="tools-button task-edit-button">
                             <i class="fa-solid fa-pen"></i>
                         </button>
-                        <button class="tools-button">
+                        <button class="tools-button task-delete-button">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </span>
