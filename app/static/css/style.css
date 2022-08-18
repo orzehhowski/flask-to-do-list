@@ -27,6 +27,46 @@ button {
   display: none;
 }
 
+.error-popup {
+  z-index: 10;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: black;
+  border: 5px solid tomato;
+  border-radius: 20px;
+  min-height: 150px;
+  width: 260px;
+  top: -100vh;
+  left: calc(50% - 130px);
+  color: tomato;
+  transition: transform 0.2s;
+}
+.error-popup p {
+  margin: 20px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+.error-popup .popup-button {
+  width: 50px;
+  height: 36px;
+  background: none;
+  border: 2px solid tomato;
+  border-radius: 6px;
+  color: tomato;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.show-popup {
+  transform: translateY(110vh);
+}
+
 .main {
   position: relative;
   width: 100%;
@@ -68,18 +108,24 @@ button {
   position: absolute;
   top: -300px;
   padding-top: 11px;
+  height: 200px;
   width: 100%;
   background-color: rgba(0, 191, 255, 0.8);
   text-align: center;
   transition: transform 0.3s;
 }
-.nav .menu li a {
-  display: inline-block;
-  padding: 18px;
+.nav .menu .menu-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.nav .menu .menu-list li a {
   text-decoration: none;
   font-weight: bold;
   font-size: 20px;
   text-transform: uppercase;
+  color: black;
   transition: color 0.3s;
 }
 .nav .show-menu {
@@ -88,16 +134,12 @@ button {
 .nav .bubble {
   display: none;
   position: relative;
-  border-radius: 50%;
-  aspect-ratio: 1;
   overflow: hidden;
 }
 .nav .bubble a {
   position: relative;
   display: inline-block;
   height: 100%;
-  aspect-ratio: 1;
-  border-radius: 50%;
   text-transform: uppercase;
   color: #eee;
   text-decoration: none;
@@ -105,44 +147,44 @@ button {
   transition: color 0.3s;
 }
 .nav .main-bubble {
+  aspect-ratio: 1;
+  border-radius: 50%;
   position: absolute;
   bottom: -240px;
   right: -50px;
   width: 400px;
   background-color: black;
   box-shadow: 0 0 10px black;
+  border: 5px solid black;
 }
 .nav .main-bubble .main-link {
-  padding-top: 190px;
+  aspect-ratio: 1;
+  padding-top: 240px;
   padding-left: 55px;
   line-height: 100%;
-  font-size: 32px;
+  font-size: 26px;
 }
 .nav .logout-bubble {
   position: absolute;
-  top: 220px;
-  left: 160px;
-  width: 220px;
+  top: 140px;
+  left: 140px;
+  width: 150px;
+  height: 400px;
   background-color: #601111;
   box-shadow: 0 0 10px #601111;
+  transform: rotate(60deg);
 }
 .nav .logout-bubble .logout-link {
-  padding-top: 70px;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  padding-top: 240px;
   font-size: 26px;
-  text-align: center;
 }
-.nav .author-bubble {
-  position: absolute;
-  width: 200px;
-  top: 260px;
-  left: 30px;
-  background-color: #921212;
-  box-shadow: 0 0 10px #921212;
-}
-.nav .author-bubble .author-link {
-  padding-top: 50px;
-  padding-left: 30px;
-  font-size: 22px;
+.nav .logout-bubble .logout-link p {
+  position: relative;
+  bottom: 100px;
+  transform: rotate(300deg);
 }
 .nav a:hover {
   color: gold;

@@ -33,7 +33,7 @@ class List(db.Model):
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(96))
+    name = db.Column(db.String(64))
     is_done = db.Column(db.Boolean, default=False)
     list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
 
