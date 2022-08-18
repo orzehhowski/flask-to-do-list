@@ -43,10 +43,8 @@ const toggleListMenu = () => {
 
     if (content.matches('.hide')) {
         content.classList.toggle('hide')
-        contentHidden = true
     } else {
         setTimeout(() => content.classList.toggle('hide'), 300)
-        contentHidden = false
     }
 }
 
@@ -74,6 +72,7 @@ const addList = (e) => {
             </span>`
                 new_list.querySelector('.edit-list-button').addEventListener('click', editList)
                 new_list.querySelector('.delete-list-button').addEventListener('click', deleteList)
+                new_list.querySelector('a').addEventListener('click', setActiveList)
                 l.prepend(new_list)
             })
             
@@ -96,6 +95,7 @@ const addTask = () => {
         list_name: listName
     }).then(r => {
         if (!r.data.error) {
+            addFieldInput.value = ''
             displayList()
         }
         else {
@@ -163,7 +163,6 @@ const editList = (e) => {
 const deleteList = (e) => {
     const toDeleteName = e.target.parentElement.parentElement.querySelector('input').getAttribute('placeholder')
     let toDelete = document.querySelectorAll(`[placeholder="${toDeleteName}"]`)
-    console.log(toDelete);
     axios.post('/delete_list', {
         list_name: toDeleteName
     }).then((r) => {
@@ -271,6 +270,11 @@ const main = () => {
         })
     })
     addTaskButton.addEventListener('click', addTask)
+    addTaskInput.addEventListener('keydown', e => {
+        if (e.key == 'Enter') {
+            addTask()
+        }
+    })
     editListButtons.forEach(btn => btn.addEventListener('click', editList))
     deleteListButtons.forEach(btn => btn.addEventListener('click', deleteList))
     menuIcons.forEach(icon => {icon.addEventListener('click', toggleBurgerMenu)})

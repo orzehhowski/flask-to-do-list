@@ -1,2 +1,1 @@
-!   add task name to enter
-!   clear input value of add-task input after creating task 
+!   task tools 
