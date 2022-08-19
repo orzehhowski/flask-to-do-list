@@ -1,8 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *:focus {
@@ -31,19 +30,10 @@ button {
 .error-popup {
   z-index: 10;
   position: fixed;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background-color: black;
   border: 5px solid tomato;
   border-radius: 20px;
@@ -52,10 +42,7 @@ button {
   top: -100vh;
   left: calc(50% - 130px);
   color: tomato;
-  -webkit-transition: -webkit-transform 0.2s;
-  transition: -webkit-transform 0.2s;
   transition: transform 0.2s;
-  transition: transform 0.2s, -webkit-transform 0.2s;
 }
 .error-popup p {
   margin: 20px;
@@ -78,8 +65,7 @@ button {
 }
 
 .show-popup {
-  -webkit-transform: translateY(110vh);
-          transform: translateY(110vh);
+  transform: translateY(110vh);
 }
 
 .main {
@@ -93,6 +79,7 @@ button {
 
 .nav {
   z-index: 6;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   right: 0;
@@ -126,23 +113,13 @@ button {
   width: 100%;
   background-color: rgba(0, 191, 255, 0.8);
   text-align: center;
-  -webkit-transition: -webkit-transform 0.3s;
-  transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
-  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 .nav .menu .menu-list {
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 .nav .menu .menu-list li a {
   text-decoration: none;
@@ -150,12 +127,10 @@ button {
   font-size: 20px;
   text-transform: uppercase;
   color: black;
-  -webkit-transition: color 0.3s;
   transition: color 0.3s;
 }
 .nav .show-menu {
-  -webkit-transform: translateY(300px);
-          transform: translateY(300px);
+  transform: translateY(300px);
 }
 .nav .bubble {
   display: none;
@@ -170,7 +145,6 @@ button {
   color: #eee;
   text-decoration: none;
   font-weight: bold;
-  -webkit-transition: color 0.3s;
   transition: color 0.3s;
 }
 .nav .main-bubble {
@@ -181,8 +155,7 @@ button {
   right: -50px;
   width: 400px;
   background-color: black;
-  -webkit-box-shadow: 0 0 10px black;
-          box-shadow: 0 0 10px black;
+  box-shadow: 0 0 10px black;
   border: 5px solid black;
 }
 .nav .main-bubble .main-link {
@@ -199,10 +172,8 @@ button {
   width: 150px;
   height: 400px;
   background-color: #601111;
-  -webkit-box-shadow: 0 0 10px #601111;
-          box-shadow: 0 0 10px #601111;
-  -webkit-transform: rotate(60deg);
-          transform: rotate(60deg);
+  box-shadow: 0 0 10px #601111;
+  transform: rotate(60deg);
 }
 .nav .logout-bubble .logout-link {
   width: 100%;
@@ -214,8 +185,7 @@ button {
 .nav .logout-bubble .logout-link p {
   position: relative;
   bottom: 100px;
-  -webkit-transform: rotate(300deg);
-          transform: rotate(300deg);
+  transform: rotate(300deg);
 }
 .nav a:hover {
   color: gold;
@@ -226,19 +196,10 @@ button {
   position: relative;
   height: 200px;
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-image: url("../img/header-640.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -249,8 +210,7 @@ button {
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 0 0 10px black;
-          box-shadow: 0 0 10px black;
+  box-shadow: 0 0 10px black;
 }
 .header h1 {
   margin-top: 20px;
@@ -273,10 +233,7 @@ button {
   top: 0;
   left: -150%;
   width: 100%;
-  -webkit-transition: -webkit-transform 0.3s;
-  transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
-  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 .aside .lists-errors {
   font-weight: bold;
@@ -309,17 +266,12 @@ button {
   font-size: 18px;
   color: black;
   width: 40%;
-}
-.aside .lists-mobile ul li ::-webkit-input-placeholder {
-  color: black;
+  cursor: pointer;
 }
 .aside .lists-mobile ul li ::-moz-placeholder {
   color: black;
 }
 .aside .lists-mobile ul li :-ms-input-placeholder {
-  color: black;
-}
-.aside .lists-mobile ul li ::-ms-input-placeholder {
   color: black;
 }
 .aside .lists-mobile ul li ::placeholder {
@@ -332,16 +284,13 @@ button {
   padding: 10px;
   font-size: 16px;
 }
-.aside .lists-mobile ul .add-list ::-webkit-input-placeholder {
-  color: darkslategray;
+.aside .lists-mobile ul .add-list input {
+  cursor: auto;
 }
 .aside .lists-mobile ul .add-list ::-moz-placeholder {
   color: darkslategray;
 }
 .aside .lists-mobile ul .add-list :-ms-input-placeholder {
-  color: darkslategray;
-}
-.aside .lists-mobile ul .add-list ::-ms-input-placeholder {
   color: darkslategray;
 }
 .aside .lists-mobile ul .add-list ::placeholder {
@@ -378,13 +327,6 @@ button {
   width: 50%;
   height: 22px;
 }
-.aside .lists-pc ul li ::-webkit-input-placeholder {
-  -webkit-transition: color 0.25s;
-  transition: color 0.25s;
-  font-size: 20px;
-  color: black;
-  border: none;
-}
 .aside .lists-pc ul li ::-moz-placeholder {
   -moz-transition: color 0.25s;
   transition: color 0.25s;
@@ -399,30 +341,16 @@ button {
   color: black;
   border: none;
 }
-.aside .lists-pc ul li ::-ms-input-placeholder {
-  -ms-transition: color 0.25s;
-  transition: color 0.25s;
-  font-size: 20px;
-  color: black;
-  border: none;
-}
 .aside .lists-pc ul li ::placeholder {
-  -webkit-transition: color 0.25s;
   transition: color 0.25s;
   font-size: 20px;
   color: black;
   border: none;
-}
-.aside .lists-pc ul li a:hover ::-webkit-input-placeholder {
-  color: gold;
 }
 .aside .lists-pc ul li a:hover ::-moz-placeholder {
   color: gold;
 }
 .aside .lists-pc ul li a:hover :-ms-input-placeholder {
-  color: gold;
-}
-.aside .lists-pc ul li a:hover ::-ms-input-placeholder {
   color: gold;
 }
 .aside .lists-pc ul li a:hover ::placeholder {
@@ -435,7 +363,6 @@ button {
   cursor: pointer;
   padding: 0 10px;
   font-size: 16px;
-  -webkit-transition: color 0.25s;
   transition: color 0.25s;
 }
 .aside .lists-pc ul li .tools .tools-button:hover {
@@ -444,16 +371,10 @@ button {
 .aside .lists-pc ul .add-list .tools {
   margin-left: calc(1% + 40.16px);
 }
-.aside .lists-pc ul .add-list ::-webkit-input-placeholder {
-  color: darkslategray;
-}
 .aside .lists-pc ul .add-list ::-moz-placeholder {
   color: darkslategray;
 }
 .aside .lists-pc ul .add-list :-ms-input-placeholder {
-  color: darkslategray;
-}
-.aside .lists-pc ul .add-list ::-ms-input-placeholder {
   color: darkslategray;
 }
 .aside .lists-pc ul .add-list ::placeholder {
@@ -464,12 +385,8 @@ button {
 }
 
 .main-list li {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin: 0;
   padding: 10px;
   color: black;
@@ -487,10 +404,6 @@ button {
   color: black;
   width: 70%;
 }
-.main-list li ::-webkit-input-placeholder {
-  color: black;
-  font-size: 18px;
-}
 .main-list li ::-moz-placeholder {
   color: black;
   font-size: 18px;
@@ -499,19 +412,29 @@ button {
   color: black;
   font-size: 18px;
 }
-.main-list li ::-ms-input-placeholder {
-  color: black;
-  font-size: 18px;
-}
 .main-list li ::placeholder {
   color: black;
   font-size: 18px;
+}
+.main-list li .done::-moz-placeholder {
+  text-decoration: line-through;
+  font-style: italic;
+  color: darkslategray;
+}
+.main-list li .done:-ms-input-placeholder {
+  text-decoration: line-through;
+  font-style: italic;
+  color: darkslategray;
+}
+.main-list li .done::placeholder {
+  text-decoration: line-through;
+  font-style: italic;
+  color: darkslategray;
 }
 .main-list li .tools .tools-button {
   cursor: pointer;
   padding: 6px;
   font-size: 16px;
-  -webkit-transition: color 0.25s;
   transition: color 0.25s;
 }
 .main-list li .tools .tools-button:hover {
@@ -520,16 +443,10 @@ button {
 .main-list .add-task input {
   cursor: auto;
 }
-.main-list .add-task ::-webkit-input-placeholder {
-  color: darkslategray;
-}
 .main-list .add-task ::-moz-placeholder {
   color: darkslategray;
 }
 .main-list .add-task :-ms-input-placeholder {
-  color: darkslategray;
-}
-.main-list .add-task ::-ms-input-placeholder {
   color: darkslategray;
 }
 .main-list .add-task ::placeholder {
@@ -543,22 +460,14 @@ button {
 }
 
 .show-aside {
-  -webkit-transform: translateX(150%);
-          transform: translateX(150%);
+  transform: translateX(150%);
 }
 
 .form {
   max-width: 400px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  align-items: center;
   width: 90%;
   margin: 10vh auto;
   padding: 20px;
@@ -600,6 +509,40 @@ button {
   color: black;
 }
 
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.error-container h1 {
+  font-size: 128px;
+}
+.error-container h3 {
+  font-size: 32px;
+}
+.error-container p {
+  margin: 20px;
+}
+.error-container .fun-fact-box {
+  width: 92%;
+  max-width: 400px;
+  border-top: 5px solid deepskyblue;
+  border-bottom: 5px solid deepskyblue;
+  border-left: 5px solid tomato;
+  border-right: 5px solid tomato;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.error-container .fun-fact-box p {
+  font-weight: bold;
+}
+.error-container .ff-outro {
+  font-weight: bold;
+}
+
 @media (min-width: 376px) {
   .header h1 {
     font-size: 46px;
@@ -609,22 +552,16 @@ button {
   .header h1 {
     font-size: 52px;
   }
-  .aside input {
+  .aside .lists-mobile ul li input {
     font-size: 24px;
   }
-  .aside ::-webkit-input-placeholder {
+  .aside .lists-mobile ul li ::-moz-placeholder {
     font-size: 24px;
   }
-  .aside ::-moz-placeholder {
+  .aside .lists-mobile ul li :-ms-input-placeholder {
     font-size: 24px;
   }
-  .aside :-ms-input-placeholder {
-    font-size: 24px;
-  }
-  .aside ::-ms-input-placeholder {
-    font-size: 24px;
-  }
-  .aside ::placeholder {
+  .aside .lists-mobile ul li ::placeholder {
     font-size: 24px;
   }
   .main-list {
@@ -638,8 +575,7 @@ button {
   .form {
     border: 3px solid darkslategray;
     border-radius: 30px;
-    -webkit-box-shadow: 0 0 5px darkslategray;
-            box-shadow: 0 0 5px darkslategray;
+    box-shadow: 0 0 5px darkslategray;
   }
 }
 @media (min-width: 992px) {
@@ -662,15 +598,9 @@ button {
     display: none;
   }
   .nav .bubble {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    justify-content: center;
+    align-items: center;
   }
   .header {
     position: fixed;
@@ -684,8 +614,6 @@ button {
     margin-right: 15%;
   }
   .list-content {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
   }
   .aside {
@@ -726,13 +654,13 @@ button {
     border: 5px solid black;
     border-top-right-radius: 80px;
     border-bottom-left-radius: 80px;
-    -webkit-box-shadow: 0 0 10px black;
-            box-shadow: 0 0 10px black;
+    box-shadow: 0 0 10px black;
     overflow-x: hidden;
     min-height: auto;
     height: 90vh;
   }
   .nav {
+    position: -webkit-sticky;
     position: sticky;
   }
   .header {

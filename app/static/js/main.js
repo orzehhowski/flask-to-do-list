@@ -136,16 +136,15 @@ const editList = (e) => {
         }).then(r => {
             if (!r.data.error) {
                 inputs.forEach(input => input.setAttribute('placeholder', newName))
-                inputElement.value = ''
                 hideError()
                 if (inputElement.parentElement.parentElement.matches('.active')) {
                     displayList()
                 }
             } else {
                 inputElement.setAttribute('placeholder', oldName)
-                inputElement.value = ''
                 displayError(r.data.error)
             }
+            inputElement.value = ''
             inputElement.setAttribute('readonly', '')
         }).catch(() => {
             displayError('Ooops, something went wrong')
@@ -156,6 +155,54 @@ const editList = (e) => {
         inputElement.removeEventListener('keydown', activateKeydown)
     }
 
+    toEdit.addEventListener('focusout', activateFocusout)
+    toEdit.addEventListener('keydown', activateKeydown)
+}
+
+const editTask = (e) => {
+    console.log('test');
+    const toEdit = e.target.parentElement.parentElement.querySelector('input')
+    const oldName = toEdit.getAttribute('placeholder')
+    toEdit.removeAttribute('readonly')
+    toEdit.value = oldName
+    toEdit.focus()
+
+    const activateKeydown = (e) => {
+        if (e.key == 'Enter') {
+            toEdit.blur()
+        }
+    }
+
+    const activateFocusout = (e) => {
+        endTaskEditing(toEdit)
+    }
+
+    const endTaskEditing = (inputElement) => {
+        const oldName = inputElement.getAttribute('placeholder')
+        const newName = inputElement.value
+        const activeList = document.querySelector('.active input').getAttribute('placeholder')
+        axios.post('/edit_task', {
+            old_name: oldName,
+            new_name: newName,
+            active_list: activeList
+        }).then((r) => {
+            if (!r.data.error) {
+                inputElement.setAttribute('placeholder', newName)
+                hideError()
+            } else {
+                displayError(r.data.error)
+                inputElement.setAttribute('placeholder', oldName)
+            }
+            inputElement.value = ''
+            inputElement.setAttribute('readonly', '')
+        }).catch(() => {
+            displayError('Ooops, something went wrong')
+            inputElement.setAttribute('placeholder', oldName)
+            inputElement.value = ''
+        })
+        toEdit.removeEventListener('focusout', activateFocusout)
+        toEdit.removeEventListener('keydown', activateKeydown)
+    }
     toEdit.addEventListener('focusout', activateFocusout)
     toEdit.addEventListener('keydown', activateKeydown)
 }
@@ -183,6 +230,37 @@ const deleteList = (e) => {
         displayError('Ooops, something went wrong')})
 }
 
+const deleteTask = (e) => {
+    const toDelete = e.target.parentElement.parentElement
+    const taskName = toDelete.querySelector('input').getAttribute('placeholder')
+    const activeList = document.querySelector('.active input').getAttribute('placeholder')
+    axios.post('/delete_task', {
+        task_name: taskName,
+        active_list: activeList
+    }).then((r) => {
+        toDelete.remove()
+        hideError()
+    }).catch(() => {
+        displayError('Ooops, something went wrong')})
+}
+
+const markTaskAsDone = (e) => {
+    const doneInput = e.target.parentElement.parentElement.querySelector('input')
+    const taskName = doneInput.getAttribute('placeholder')
+    const activeList = document.querySelector('.active input').getAttribute('placeholder')
+    axios.post('/mark_task_as_done', {
+        task_name: taskName,
+        active_list: activeList
+    }).then(() => {
+        doneInput.classList.add('done')
+        e.target.classList.add('hide')
+        e.target.nextElementSibling.classList.add('hide')
+        hideError()
+    }).catch(() => {
+        displayError('Ooops, something went wrong')
+    })
+}
+
 const setActiveList = (e) => {
     const oldActive = document.getElementsByClassName('active')
     for (let el of oldActive) {
@@ -198,6 +276,9 @@ const setActiveList = (e) => {
     newActive.forEach(input => {input.parentElement.parentElement.classList.add('active')})
 
     displayList()
+    if (e.target.closest('div').matches('.lists-mobile')) {
+        toggleListMenu()
+    }
 }
 
 const displayList = () => {
@@ -219,12 +300,12 @@ const displayList = () => {
             const newLi = document.createElement('li')
             newLi.classList.add('task')
             newLi.innerHTML = `
-            <input type="text" placeholder="${task}"  readonly>
+            <input type="text" placeholder="${task[0]}" readonly ${task[1] ? 'class="done"' : ''}>
             <span class="tools">
-                <button class="tools-button task-done-button">
+                <button class="tools-button task-done-button ${task[1] ? 'hide' : ''}">
                     <i class="fa-solid fa-check"></i>
                 </button>
-                <button class="tools-button task-edit-button">
+                <button class="tools-button task-edit-button ${task[1] ? 'hide' : ''}">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button class="tools-button task-delete-button">
@@ -239,14 +320,11 @@ const displayList = () => {
     })
 }
 
-
 const main = () => {
     const menuIcons = document.querySelectorAll('.menu-icon')
     const asideIcons = document.querySelectorAll('.aside-icon')
     const addTaskButton = document.querySelector('.add-task-button')
     const addTaskInput = document.querySelector('.add-task input')
-    const editTaskButtons = document.querySelectorAll('.edit-task-button')
-    const deleteTaskButtons = document.querySelectorAll('.delete-task-button')
     const addListButtons = document.querySelectorAll('.add-list-button')
     const addListInputs = document.querySelectorAll('.add-list input')
     const editListButtons = document.querySelectorAll('.edit-list-button')
@@ -281,6 +359,17 @@ const main = () => {
     asideIcons.forEach(icon => {icon.addEventListener('click', toggleListMenu)})
     popupButton.addEventListener('click', hideError)
     listLinks.forEach(link => link.addEventListener('click', setActiveList))
+
+    // event listners to dynamically added elements
+    document.body.addEventListener('click', (e) => {
+        if (e.target.matches('.task-edit-button')) {
+            editTask(e)
+        } else if (e.target.matches('.task-done-button')) {
+            markTaskAsDone(e)
+        } else if (e.target.matches('.task-delete-button')) {
+            deleteTask(e)
+        }
+    })
 }
 
 document.addEventListener('DOMContentLoaded', main)

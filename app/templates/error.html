@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="error-container">
+        <h1>{{ e.code }}</h1>
+        <h3>{{e.name}}</h3>
+        <p>But don't worry! We've got a fun fact for you!</p>
+        <div class="fun-fact-box">
+            <p class="fun-fact"></p>
+        </div>
+        <p class="ff-outro">Wow, that was amazing :O</p>
+    </div>
+    <script src="{{ url_for('static', filename='/js/error.js') }}"></script>
+{% endblock content %}

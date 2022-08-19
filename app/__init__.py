@@ -14,4 +14,4 @@ login = LoginManager(app)
 login.login_view = 'login'
 login.login_message = 'Please log in to access this page'
 
-from app import routes, models
+from app import routes, models, errors

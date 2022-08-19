@@ -1,3 +1,4 @@
+import json
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
 from flask import render_template, redirect, url_for, jsonify, request
@@ -97,8 +98,27 @@ def edit_list():
     the_same_list = List.query.filter_by(name=new_name, author=current_user).first()
     if the_same_list:
         return jsonify({'error': "Lists can't have the same names!"})
-    list_to_edit = List.query.filter_by(name=old_name).first_or_404()
+    list_to_edit = List.query.filter_by(name=old_name, author=current_user).first_or_404()
     list_to_edit.name = new_name
+    db.session.commit()
+    return jsonify({})
+
+
+@app.route('/edit_task', methods=['POST'])
+@login_required
+def edit_task():
+    old_name = request.json['old_name']
+    new_name = request.json['new_name']
+    active_list_name = request.json['active_list']
+    if not new_name:
+        return jsonify({'error': "Task can't be empty!"})
+    if len(new_name) > 64:
+        return jsonify({'error': "This task is too long."})
+    if new_name == old_name:
+        return jsonify({})
+    active_list = List.query.filter_by(name=active_list_name, author=current_user).first_or_404()
+    task_to_edit = Task.query.filter_by(name=old_name, parent_list=active_list).first_or_404()
+    task_to_edit.name = new_name
     db.session.commit()
     return jsonify({})
 
@@ -115,10 +135,33 @@ def delete_list():
     return jsonify({})
 
 
+@app.route('/delete_task', methods=['POST'])
+@login_required
+def delete_task():
+    active_list_name = request.json['active_list']
+    task_name = request.json['task_name']
+    active_list = List.query.filter_by(name=active_list_name, author=current_user).first_or_404()
+    task = Task.query.filter_by(name=task_name, parent_list=active_list).first_or_404()
+    db.session.delete(task)
+    db.session.commit()
+    return jsonify({})
+
+@app.route('/mark_task_as_done', methods=['POST'])
+@login_required
+def mark_task_as_done():
+    active_list_name = request.json['active_list']
+    task_name = request.json['task_name']
+    active_list = List.query.filter_by(name=active_list_name, author=current_user).first_or_404()
+    task = Task.query.filter_by(name=task_name, parent_list=active_list).first_or_404()
+    task.is_done = True
+    db.session.commit()
+    return jsonify({})
+
+
 @app.route('/tasks', methods=['POST'])
 @login_required
 def tasks():
     list_name = request.json['list_name']
     active_list = List.query.filter_by(author=current_user, name=list_name).first_or_404()
-    tasks = [task.name for task in active_list.tasks]
+    tasks = [[task.name, task.is_done] for task in active_list.tasks]
     return jsonify({'tasks': tasks})
