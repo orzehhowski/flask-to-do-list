@@ -51,9 +51,11 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/add_list', methods=['POST'])
+@app.route('/add-list', methods=['POST'])
 @login_required
 def add_list():
+    if List.query.filter_by(author=current_user).count() > 21:
+        return jsonify({'error': "You have reached lists limit!"})
     list_name = request.json['list_name']
     if not list_name:
         return jsonify({'error': "List name can't be empty!"})
@@ -68,7 +70,7 @@ def add_list():
     return jsonify({})
 
 
-@app.route('/add_task', methods=['POST'])
+@app.route('/add-task', methods=['POST'])
 @login_required
 def add_task():
     task_name = request.json['task_name']
@@ -84,7 +86,7 @@ def add_task():
     return jsonify({})
 
 
-@app.route('/edit_list', methods=['POST'])
+@app.route('/edit-list', methods=['POST'])
 @login_required
 def edit_list():
     old_name = request.json['old_name']
@@ -104,7 +106,7 @@ def edit_list():
     return jsonify({})
 
 
-@app.route('/edit_task', methods=['POST'])
+@app.route('/edit-task', methods=['POST'])
 @login_required
 def edit_task():
     old_name = request.json['old_name']
@@ -123,7 +125,7 @@ def edit_task():
     return jsonify({})
 
 
-@app.route('/delete_list', methods=['POST'])
+@app.route('/delete-list', methods=['POST'])
 @login_required
 def delete_list():
     if List.query.filter_by(author=current_user).count() == 1:
@@ -135,7 +137,7 @@ def delete_list():
     return jsonify({})
 
 
-@app.route('/delete_task', methods=['POST'])
+@app.route('/delete-task', methods=['POST'])
 @login_required
 def delete_task():
     active_list_name = request.json['active_list']
@@ -146,7 +148,7 @@ def delete_task():
     db.session.commit()
     return jsonify({})
 
-@app.route('/mark_task_as_done', methods=['POST'])
+@app.route('/mark-task-as-done', methods=['POST'])
 @login_required
 def mark_task_as_done():
     active_list_name = request.json['active_list']

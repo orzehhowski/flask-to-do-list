@@ -53,7 +53,7 @@ const addList = (e) => {
     const lists = document.querySelectorAll('.lists-list')
     const listName = addField.querySelector('input').value
 
-    axios.post(`/add_list`, {
+    axios.post(`/add-list`, {
         list_name: listName
     }).then(r => {
         if (! r.data.error) {
@@ -90,7 +90,7 @@ const addTask = () => {
     const newTaskName = addFieldInput.value
     const listName = document.querySelector('.active input').getAttribute('placeholder')
 
-    axios.post('/add_task', {
+    axios.post('/add-task', {
         task_name: newTaskName,
         list_name: listName
     }).then(r => {
@@ -130,7 +130,7 @@ const editList = (e) => {
         const oldName = inputElement.getAttribute('placeholder')
         const newName = inputElement.value
         const inputs = document.querySelectorAll(`[placeholder="${oldName}"]`)
-        axios.post('/edit_list', {
+        axios.post('/edit-list', {
             old_name: oldName,
             new_name: newName
         }).then(r => {
@@ -181,7 +181,7 @@ const editTask = (e) => {
         const oldName = inputElement.getAttribute('placeholder')
         const newName = inputElement.value
         const activeList = document.querySelector('.active input').getAttribute('placeholder')
-        axios.post('/edit_task', {
+        axios.post('/edit-task', {
             old_name: oldName,
             new_name: newName,
             active_list: activeList
@@ -210,7 +210,7 @@ const editTask = (e) => {
 const deleteList = (e) => {
     const toDeleteName = e.target.parentElement.parentElement.querySelector('input').getAttribute('placeholder')
     let toDelete = document.querySelectorAll(`[placeholder="${toDeleteName}"]`)
-    axios.post('/delete_list', {
+    axios.post('/delete-list', {
         list_name: toDeleteName
     }).then((r) => {
         if (!r.data.error) {
@@ -234,7 +234,7 @@ const deleteTask = (e) => {
     const toDelete = e.target.parentElement.parentElement
     const taskName = toDelete.querySelector('input').getAttribute('placeholder')
     const activeList = document.querySelector('.active input').getAttribute('placeholder')
-    axios.post('/delete_task', {
+    axios.post('/delete-task', {
         task_name: taskName,
         active_list: activeList
     }).then((r) => {
@@ -248,7 +248,7 @@ const markTaskAsDone = (e) => {
     const doneInput = e.target.parentElement.parentElement.querySelector('input')
     const taskName = doneInput.getAttribute('placeholder')
     const activeList = document.querySelector('.active input').getAttribute('placeholder')
-    axios.post('/mark_task_as_done', {
+    axios.post('/mark-task-as-done', {
         task_name: taskName,
         active_list: activeList
     }).then(() => {
