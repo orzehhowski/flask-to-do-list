@@ -105,12 +105,12 @@ const addTask = () => {
         list_name: listName
     }).then(r => {
         if (!r.data.error) {
-            addFieldInput.value = ''
             displayList()
         }
         else {
             displayError(r.data.error)
         }
+        addFieldInput.value = ''
     }).catch(() => {
         displayError('Ooops, something went wrong')
     })
@@ -122,6 +122,7 @@ const editList = (e) => {
     const toEdit = e.target.parentElement.parentElement.querySelector('input')
     const oldName = toEdit.getAttribute('placeholder')
     toEdit.removeAttribute('readonly')
+    toEdit.removeAttribute('placeholder')
     toEdit.value = oldName
     toEdit.focus()
 
@@ -137,7 +138,6 @@ const editList = (e) => {
     }   
 
     const endListEditing = (inputElement) => {
-        const oldName = inputElement.getAttribute('placeholder')
         const newName = inputElement.value
         const inputs = document.querySelectorAll(`[placeholder="${oldName}"]`)
         axios.post('/edit-list', {
@@ -155,12 +155,12 @@ const editList = (e) => {
                 displayError(r.data.error)
             }
             inputElement.value = ''
-            inputElement.setAttribute('readonly', '')
         }).catch(() => {
             displayError('Ooops, something went wrong')
             inputElement.setAttribute('placeholder', oldName)
             inputElement.value = ''
         })
+        inputElement.setAttribute('readonly', '')
         inputElement.removeEventListener('focusout', activateFocusout)
         inputElement.removeEventListener('keydown', activateKeydown)
     }
@@ -175,6 +175,7 @@ const editTask = (e) => {
     const doneButton = e.target.parentElement.querySelector('.task-done-button')
     const oldName = toEdit.getAttribute('placeholder')
     toEdit.removeAttribute('readonly')
+    toEdit.removeAttribute('placeholder')
     toEdit.value = oldName
     toEdit.focus()
     doneButton.classList.add('hide')
@@ -191,7 +192,6 @@ const editTask = (e) => {
     }
     
     const endTaskEditing = (inputElement) => {
-        const oldName = inputElement.getAttribute('placeholder')
         const newName = inputElement.value
         const activeList = document.querySelector('.active input').getAttribute('placeholder')
         axios.post('/edit-task', {
