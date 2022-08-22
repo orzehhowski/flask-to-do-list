@@ -5,7 +5,7 @@ const displayError = (message) => {
 }
 
 const hideError = () => {
-    const popup = e.target.parentElement
+    const popup = document.querySelector('.error-popup')
     popup.classList.remove('show-popup')
 }
 
