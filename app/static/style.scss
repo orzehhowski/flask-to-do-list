@@ -36,7 +36,7 @@ button {
     align-items: center;
     flex-direction: column;
     background-color: c.$bg;
-    top: -100vh;
+    top: -200vh;
     border-radius: 20px;
     transition: transform 0.2s;
 
@@ -92,7 +92,7 @@ button {
 }
 
 .show-popup {
-    transform: translateY(110vh);
+    transform: translateY(210vh);
 }
 
 .main {
