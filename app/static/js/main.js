@@ -71,7 +71,7 @@ const addList = (e) => {
             lists.forEach(l => {
                 const new_list = document.createElement('li')
                 new_list.innerHTML = `
-            <a href="#"><input type="text" placeholder="${listName}" readonly></a>
+            <a href="#"><input type="text" placeholder="${listName}" data-oldname="${listName}" readonly></a>
             <span class="tools">
             <button class="tools-button edit-list-button">
             <i class="fa-solid fa-pen"></i>
@@ -86,12 +86,12 @@ const addList = (e) => {
                 l.prepend(new_list)
             })
             
-            addField.querySelector('input').value = ''
             hideError()
-
+            
         } else {
-            displayError(r.data.error)
+            displayError(r.data.error)   
         }
+        addField.querySelector('input').value = ''
     }).catch(() => displayError('Ooops, something went wrong'))
 }
 
@@ -123,6 +123,7 @@ const editList = (e) => {
     const oldName = toEdit.getAttribute('placeholder')
     toEdit.removeAttribute('readonly')
     toEdit.removeAttribute('placeholder')
+    toEdit.dataset.oldname = oldName
     toEdit.value = oldName
     toEdit.focus()
 
@@ -138,14 +139,18 @@ const editList = (e) => {
     }   
 
     const endListEditing = (inputElement) => {
+        const oldName = toEdit.dataset.oldname
         const newName = inputElement.value
-        const inputs = document.querySelectorAll(`[placeholder="${oldName}"]`)
+        const inputs = document.querySelectorAll(`[data-oldname="${oldName}"]`)
         axios.post('/edit-list', {
             old_name: oldName,
             new_name: newName
         }).then(r => {
             if (!r.data.error) {
-                inputs.forEach(input => input.setAttribute('placeholder', newName))
+                inputs.forEach(input => {
+                    input.setAttribute('placeholder', newName)
+                    input.dataset.oldname = newName
+                })
                 hideError()
                 if (inputElement.parentElement.parentElement.matches('.active')) {
                     displayList()
@@ -320,7 +325,7 @@ const setActiveList = (e) => {
 const displayList = () => {
     const listNameHeading = document.querySelector('h2')
     const listsList = document.querySelectorAll('.lists-list')
-    const listName = listsList[0].querySelector('.active input').getAttribute('placeholder')
+    const listName = listsList[0].querySelector('.active input').dataset.oldname
     const tasksList = document.querySelector('.tasks-list')
     let lastTask = tasksList.lastElementChild
     while(!lastTask.matches('.add-task')) {
