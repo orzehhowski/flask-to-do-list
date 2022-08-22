@@ -11,7 +11,7 @@ from app.models import User, List, Task
 @login_required
 def index():
     lists = List.query.filter_by(author=current_user).order_by(-List.id)
-    return render_template('index.html', lists=lists)
+    return render_template('index.html', lists=lists, title='ToDo List')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -24,7 +24,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('index'))
     print(form.username.errors)
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, title="ToDo List - login")
 
 
 @app.route('/logout')
@@ -48,7 +48,7 @@ def register():
         db.session.commit()
         login_user(user)
         return redirect(url_for('index'))
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, title='ToDo List - register')
 
 
 @app.route('/add-list', methods=['POST'])
@@ -156,6 +156,18 @@ def mark_task_as_done():
     active_list = List.query.filter_by(name=active_list_name, author=current_user).first_or_404()
     task = Task.query.filter_by(name=task_name, parent_list=active_list).first_or_404()
     task.is_done = True
+    db.session.commit()
+    return jsonify({})
+
+
+@app.route('/mark-task-as-undone', methods=['POST'])
+@login_required
+def mark_task_as_undone():
+    active_list_name = request.json['active_list']
+    task_name = request.json['task_name']
+    active_list = List.query.filter_by(name=active_list_name, author=current_user).first_or_404()
+    task = Task.query.filter_by(name=task_name, parent_list=active_list).first_or_404()
+    task.is_done = False
     db.session.commit()
     return jsonify({})
 

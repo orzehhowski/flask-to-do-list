@@ -3,7 +3,7 @@
 {% block content %}
 <div class="main">
 
-    <div class="error-popup">
+    <div class="error-popup popup">
         <div class="lists-errors">
             <p></p>
         </div>
@@ -25,25 +25,28 @@
             <i class="fa-solid fa-xmark"></i>
         </button>
 
+    <div class="how-to-popup popup">
+        <p>Hello, {{current_user.username}}! <br><br> On the left side (click the top-left arrow if You're mobile) You can see table of Your ToDo lists. You're able to add, edit, delete and choose active list. Name of active list is displayed on header. Inside the main section You can see tasks in active list, which You can edit, delete and mark as done.</p>
+        <button class="popup-button">Got it!</button>
+    </div>
+
 
         <div class="menu">
             <ul class="menu-list">
                 <li><a href="https://github.com/orzehhowski" target="_blank" rel="noopener">Author</a></li>
+                <li><a class="how-to-link" href="#">How to use</a></li>
                 <li><a href="{{ url_for('logout') }}">
                     Logout</a></li>
             </ul>
         </div>
 
-        
-        
+
+
         <!-- nav for pc -->
-        <div class="main-bubble bubble">
-            <a class="main-link" href="https://github.com/orzehhowski" target="_blank" rel="noopener">Author</a>
-            <div class="logout-bubble bubble">
-                <a class="logout-link" href="{{ url_for('logout') }}">
-                    <p>Logout</p>
-                </a>
-            </div>
+        <div class="nav-pc">
+            <a class="author-link" href="https://github.com/orzehhowski" target="_blank" rel="noopener"><p>Author</p></a>
+            <a class="how-to-link" href="#"><p>How to use</p></a>
+            <a class="logout-link" href="{{ url_for('logout') }}"><p>logout</p></a>
         </div>
     </nav>
     

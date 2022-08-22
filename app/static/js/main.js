@@ -5,7 +5,17 @@ const displayError = (message) => {
 }
 
 const hideError = () => {
-    const popup = document.querySelector('.error-popup')
+    const popup = e.target.parentElement
+    popup.classList.remove('show-popup')
+}
+
+const displayHowTo = () => {
+    const popup = document.querySelector('.how-to-popup')
+    popup.classList.add('show-popup')
+}
+
+const hideHowTo = () => {
+    const popup = document.querySelector('.how-to-popup')
     popup.classList.remove('show-popup')
 }
 
@@ -160,13 +170,16 @@ const editList = (e) => {
 }
 
 const editTask = (e) => {
-    console.log('test');
     const toEdit = e.target.parentElement.parentElement.querySelector('input')
+    const endEditingButton = e.target.parentElement.querySelector('.task-end-editing-button')
+    const doneButton = e.target.parentElement.querySelector('.task-done-button')
     const oldName = toEdit.getAttribute('placeholder')
     toEdit.removeAttribute('readonly')
     toEdit.value = oldName
     toEdit.focus()
-
+    doneButton.classList.add('hide')
+    endEditingButton.classList.remove('hide')
+    
     const activateKeydown = (e) => {
         if (e.key == 'Enter') {
             toEdit.blur()
@@ -176,7 +189,7 @@ const editTask = (e) => {
     const activateFocusout = (e) => {
         endTaskEditing(toEdit)
     }
-
+    
     const endTaskEditing = (inputElement) => {
         const oldName = inputElement.getAttribute('placeholder')
         const newName = inputElement.value
@@ -202,6 +215,8 @@ const editTask = (e) => {
         })
         toEdit.removeEventListener('focusout', activateFocusout)
         toEdit.removeEventListener('keydown', activateKeydown)
+        doneButton.classList.remove('hide')
+        endEditingButton.classList.add('hide')
     }
     toEdit.addEventListener('focusout', activateFocusout)
     toEdit.addEventListener('keydown', activateKeydown)
@@ -255,6 +270,27 @@ const markTaskAsDone = (e) => {
         doneInput.classList.add('done')
         e.target.classList.add('hide')
         e.target.nextElementSibling.classList.add('hide')
+        e.target.previousElementSibling.classList.remove('hide')
+        hideError()
+    }).catch(() => {
+        displayError('Ooops, something went wrong')
+    })
+}
+
+const markTaskAsUndone = (e) => {
+    const doneInput = e.target.parentElement.parentElement.querySelector('input')
+    const taskDoneButton = e.target.parentElement.querySelector('.task-done-button')
+    const taskEditButton = e.target.parentElement.querySelector('.task-edit-button')
+    const taskName = doneInput.getAttribute('placeholder')
+    const activeList = document.querySelector('.active input').getAttribute('placeholder')
+    axios.post('/mark-task-as-undone', {
+        task_name: taskName,
+        active_list: activeList
+    }).then(() => {
+        doneInput.classList.remove('done')
+        e.target.classList.add('hide')
+        taskDoneButton.classList.remove('hide')
+        taskEditButton.classList.remove('hide')
         hideError()
     }).catch(() => {
         displayError('Ooops, something went wrong')
@@ -302,6 +338,12 @@ const displayList = () => {
             newLi.innerHTML = `
             <input type="text" placeholder="${task[0]}" readonly ${task[1] ? 'class="done"' : ''}>
             <span class="tools">
+                <button class="tools-button task-end-editing-button hide">
+                <i class="fa-solid fa-check"></i>
+                </button>
+                <button class="tools-button task-undone-button ${task[1] ? '' : 'hide'}">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
                 <button class="tools-button task-done-button ${task[1] ? 'hide' : ''}">
                     <i class="fa-solid fa-check"></i>
                 </button>
@@ -324,6 +366,7 @@ const main = () => {
     const menuIcons = document.querySelectorAll('.menu-icon')
     const asideIcons = document.querySelectorAll('.aside-icon')
     const addTaskButton = document.querySelector('.add-task-button')
+    const howToLinks = document.querySelectorAll('.how-to-link')
     const addTaskInput = document.querySelector('.add-task input')
     const addListButtons = document.querySelectorAll('.add-list-button')
     const addListInputs = document.querySelectorAll('.add-list input')
@@ -331,7 +374,8 @@ const main = () => {
     const deleteListButtons = document.querySelectorAll('.delete-list-button')
     const listLinks = document.querySelectorAll('.lists-list a')
 
-    const popupButton = document.querySelector('.popup-button')
+    const errorPopupButton = document.querySelector('.error-popup .popup-button')
+    const howToPopupButton = document.querySelector('.how-to-popup .popup-button')
     const listsList = document.querySelectorAll('.lists-list')
 
     listsList.forEach(l => {
@@ -357,8 +401,17 @@ const main = () => {
     deleteListButtons.forEach(btn => btn.addEventListener('click', deleteList))
     menuIcons.forEach(icon => {icon.addEventListener('click', toggleBurgerMenu)})
     asideIcons.forEach(icon => {icon.addEventListener('click', toggleListMenu)})
-    popupButton.addEventListener('click', hideError)
+    errorPopupButton.addEventListener('click', hideError)
+    howToPopupButton.addEventListener('click', hideHowTo)
     listLinks.forEach(link => link.addEventListener('click', setActiveList))
+    howToLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            displayHowTo()
+            if (link.parentElement.matches('li')) {
+                toggleBurgerMenu()
+            }
+        })
+    })
 
     // event listners to dynamically added elements
     document.body.addEventListener('click', (e) => {
@@ -368,6 +421,8 @@ const main = () => {
             markTaskAsDone(e)
         } else if (e.target.matches('.task-delete-button')) {
             deleteTask(e)
+        } else if (e.target.matches('.task-undone-button')) {
+            markTaskAsUndone(e)
         }
     })
 }

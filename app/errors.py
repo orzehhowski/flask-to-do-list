@@ -4,4 +4,4 @@ from werkzeug.exceptions import HTTPException
 
 @app.errorhandler(HTTPException)
 def handle_error(e):
-    return render_template('error.html', e=e), e.code
+    return render_template('error.html', e=e, title=f'{e.code} error'), e.code

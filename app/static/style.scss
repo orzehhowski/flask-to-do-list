@@ -28,42 +28,66 @@ button {
     display: none;
 }
 
-.error-popup {
+.popup {
     z-index: 10;
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: c.$black;
-    border: 5px solid c.$error;
-    border-radius: 20px;
-    min-height: 150px;
-    width: 260px;
+    background-color: c.$bg;
     top: -100vh;
-    left: calc(50% - 130px);
-    color: c.$error;
+    border-radius: 20px;
     transition: transform 0.2s;
 
+    .popup-button {
+        height: 36px;
+        background: none;
+        border-radius: 6px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+}
+
+.error-popup {
+    background-color: c.$black;
+    border: 5px solid c.$error;
+    min-height: 150px;
+    width: 260px;
+    left: calc(50% - 130px);
+    color: c.$error;
+    
     p {
         margin: 20px;
         text-align: center;
         font-size: 20px;
         font-weight: bold;
     }
-
+    
     .popup-button {
         width: 50px;
-        height: 36px;
-        background: none;
         border: 2px solid c.$error;
-        border-radius: 6px;
-        color: c.$error;
         text-transform: uppercase;
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        cursor: pointer;
+        color: c.$error;
+    }
+}
+
+.how-to-popup {
+    border: 5px solid c.$black;
+    width: 260px;
+    left: calc(50% - 130px);
+    
+    p {
+        margin: 20px;
+        text-align: center;
+    }
+
+    .popup-button {
+        width: 70px;
+        border: 2px solid c.$black;
+        color: c.$black;
     }
 }
 
@@ -136,77 +160,56 @@ button {
                     font-size: 20px;
                     text-transform: uppercase;
                     color: c.$black;
-                    transition: color 0.3s;
                 }
             }
         }
     }
-
+    
     .show-menu {
         transform:translateY(300px)
     }
-
-    .bubble {
+    
+    .nav-pc {
         display: none;
         position: relative;
         overflow: hidden;
-        
+        margin-left: auto;
+        height: 200px;
+        width: 300px;
+        box-shadow: 0 0 10px black;
+
         a {
-            position: relative;
-            display: inline-block;
-            height: 100%;
-            text-transform: uppercase;
-            color: #eee;
-            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
             font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
             transition: color 0.3s;
+            color: c.$white;
+
         }
-    }
-    
-    .main-bubble {
-        aspect-ratio: 1;
-        border-radius: 50%;
-        position: absolute;
-        bottom: -240px;
-        right: -50px;
-        width: 400px;
-        background-color: c.$black;
-        box-shadow: 0 0 10px c.$black;
-        border: 5px solid c.$black;
-
-        .main-link {
-            aspect-ratio: 1;
-            padding-top: 240px;
-            padding-left: 55px;
-            line-height: 100%;
-            font-size: 26px;
-        }
-    }
-
-    .logout-bubble {
-        position: absolute;
-        top: 140px;
-        left: 140px;
-        width: 150px;
-        height: 400px;
-        background-color: c.$darkbrown;
-        box-shadow: 0 0 10px c.$darkbrown;
-        transform:rotate(60deg);
-
+        .author-link,
         .logout-link {
-            width: 100%;
-            height: 100%;
-            left: 0;
-            padding-top: 240px;
-            font-size: 26px;
-            p {
-                position: relative;
-                bottom: 100px;
-                transform: rotate(300deg);
-            }
+            height: 60px;
+            background-color: c.$darkred;
+            font-size: 20px;
+        }
+
+        .how-to-link {
+            height: 80px;
+            background-color: c.$black;
+            font-size: 22px;
+        }
+
+        a:hover {
+            color: c.$gold;
         }
     }
-
+    a {
+        transition: color 0.3s;
+    }
     a:hover {
         color: c.$gold;
     }
@@ -571,6 +574,13 @@ button {
 }
 
 @media (min-width: 576px) {
+    
+    .how-to-popup {
+        font-size: 18px;
+        width: 460px;
+        left: calc(50% - 230px);
+    }
+
     .header {
         h1 {
             font-size: 52px;
@@ -632,16 +642,16 @@ button {
             display: none;
         }
 
-        .bubble {
+        .nav-pc {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+
         }
     }
 
     .header {
         position: fixed;
-        width: 90%;
+        width: calc(100% - 300px);
         background-image: url('../img/header-1280.jpg');
 
         h1 {
@@ -713,7 +723,7 @@ button {
     }
 
     .header {
-        width: 1000px;
+        width: 890px;
     }
 
     .aside {

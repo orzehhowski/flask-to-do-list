@@ -1,4 +1,3 @@
-from email.policy import default
 from app import app, db, login
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey
@@ -23,7 +22,7 @@ class User(UserMixin, db.Model):
 
 class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32))
+    name = db.Column(db.String(32), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     tasks = db.relationship('Task', backref='parent_list', lazy='dynamic')
 
@@ -33,7 +32,7 @@ class List(db.Model):
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
+    name = db.Column(db.String(64), index=True)
     is_done = db.Column(db.Boolean, default=False)
     list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
 
@@ -42,6 +41,6 @@ class Task(db.Model):
 
 
 @login.user_loader
-def load_usser(id):
+def load_user(id):
     # id from flask-login is string
     return User.query.get(int(id))
