@@ -35,7 +35,7 @@
             <ul class="menu-list">
                 <li><a href="https://github.com/orzehhowski" target="_blank" rel="noopener">Author</a></li>
                 <li><a class="how-to-link" href="#">How to use</a></li>
-                <li><a href="{{ url_for('logout') }}">
+                <li><a href="{{ url_for('auth.logout') }}">
                     Logout</a></li>
             </ul>
         </div>
@@ -45,7 +45,7 @@
         <div class="nav-pc">
             <a class="author-link" href="https://github.com/orzehhowski" target="_blank" rel="noopener"><p>Author</p></a>
             <a class="how-to-link" href="#"><p>How to use</p></a>
-            <a class="logout-link" href="{{ url_for('logout') }}"><p>logout</p></a>
+            <a class="logout-link" href="{{ url_for('auth.logout') }}"><p>logout</p></a>
         </div>
     </nav>
     

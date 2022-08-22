@@ -1,57 +1,19 @@
-import json
-from app import app, db
-from app.forms import LoginForm, RegistrationForm
-from flask import render_template, redirect, url_for, jsonify, request
-from flask_login import current_user, login_required, login_user, logout_user
-from app.models import User, List, Task
+from app import db
+from app.main import bp
+from flask import render_template, jsonify, request
+from flask_login import current_user, login_required
+from app.models import List, Task
 
 
-@app.route('/')
-@app.route('/index')
+@bp.route('/')
+@bp.route('/index')
 @login_required
 def index():
     lists = List.query.filter_by(author=current_user).order_by(-List.id)
     return render_template('index.html', lists=lists, title='ToDo List')
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('index'))
-    print(form.username.errors)
-    return render_template('login.html', form=form, title="ToDo List - login")
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data)
-        user.set_password_hash(form.password.data)
-        db.session.add(user)
-        default_list = List(name='My list', author=user)
-        db.session.add(default_list)
-        db.session.commit()
-        login_user(user)
-        return redirect(url_for('index'))
-    return render_template('register.html', form=form, title='ToDo List - register')
-
-
-@app.route('/add-list', methods=['POST'])
+@bp.route('/add-list', methods=['POST'])
 @login_required
 def add_list():
     if List.query.filter_by(author=current_user).count() > 21:
@@ -70,7 +32,7 @@ def add_list():
     return jsonify({})
 
 
-@app.route('/add-task', methods=['POST'])
+@bp.route('/add-task', methods=['POST'])
 @login_required
 def add_task():
     task_name = request.json['task_name']
@@ -86,7 +48,7 @@ def add_task():
     return jsonify({})
 
 
-@app.route('/edit-list', methods=['POST'])
+@bp.route('/edit-list', methods=['POST'])
 @login_required
 def edit_list():
     old_name = request.json['old_name']
@@ -106,7 +68,7 @@ def edit_list():
     return jsonify({})
 
 
-@app.route('/edit-task', methods=['POST'])
+@bp.route('/edit-task', methods=['POST'])
 @login_required
 def edit_task():
     old_name = request.json['old_name']
@@ -125,7 +87,7 @@ def edit_task():
     return jsonify({})
 
 
-@app.route('/delete-list', methods=['POST'])
+@bp.route('/delete-list', methods=['POST'])
 @login_required
 def delete_list():
     if List.query.filter_by(author=current_user).count() == 1:
@@ -137,7 +99,7 @@ def delete_list():
     return jsonify({})
 
 
-@app.route('/delete-task', methods=['POST'])
+@bp.route('/delete-task', methods=['POST'])
 @login_required
 def delete_task():
     active_list_name = request.json['active_list']
@@ -148,7 +110,7 @@ def delete_task():
     db.session.commit()
     return jsonify({})
 
-@app.route('/mark-task-as-done', methods=['POST'])
+@bp.route('/mark-task-as-done', methods=['POST'])
 @login_required
 def mark_task_as_done():
     active_list_name = request.json['active_list']
@@ -160,7 +122,7 @@ def mark_task_as_done():
     return jsonify({})
 
 
-@app.route('/mark-task-as-undone', methods=['POST'])
+@bp.route('/mark-task-as-undone', methods=['POST'])
 @login_required
 def mark_task_as_undone():
     active_list_name = request.json['active_list']
@@ -172,7 +134,7 @@ def mark_task_as_undone():
     return jsonify({})
 
 
-@app.route('/tasks', methods=['POST'])
+@bp.route('/tasks', methods=['POST'])
 @login_required
 def tasks():
     list_name = request.json['list_name']
