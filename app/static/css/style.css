@@ -1,7 +1,8 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 *:focus {
@@ -30,14 +31,26 @@ button {
 .popup {
   z-index: 10;
   position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   background-color: antiquewhite;
-  top: -100vh;
+  top: -200vh;
   border-radius: 20px;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
   transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
 }
 .popup .popup-button {
   height: 36px;
@@ -86,7 +99,8 @@ button {
 }
 
 .show-popup {
-  transform: translateY(110vh);
+  -webkit-transform: translateY(210vh);
+          transform: translateY(210vh);
 }
 
 .main {
@@ -100,7 +114,6 @@ button {
 
 .nav {
   z-index: 6;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   right: 0;
@@ -134,13 +147,23 @@ button {
   width: 100%;
   background-color: rgba(0, 191, 255, 0.8);
   text-align: center;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 .nav .menu .menu-list {
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
 }
 .nav .menu .menu-list li a {
   text-decoration: none;
@@ -150,7 +173,8 @@ button {
   color: black;
 }
 .nav .show-menu {
-  transform: translateY(300px);
+  -webkit-transform: translateY(300px);
+          transform: translateY(300px);
 }
 .nav .nav-pc {
   display: none;
@@ -159,16 +183,24 @@ button {
   margin-left: auto;
   height: 200px;
   width: 300px;
-  box-shadow: 0 0 10px black;
+  -webkit-box-shadow: 0 0 10px black;
+          box-shadow: 0 0 10px black;
 }
 .nav .nav-pc a {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   text-align: center;
   font-weight: bold;
   text-transform: uppercase;
   text-decoration: none;
+  -webkit-transition: color 0.3s;
   transition: color 0.3s;
   color: #eee;
 }
@@ -187,6 +219,7 @@ button {
   color: gold;
 }
 .nav a {
+  -webkit-transition: color 0.3s;
   transition: color 0.3s;
 }
 .nav a:hover {
@@ -198,10 +231,19 @@ button {
   position: relative;
   height: 200px;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   background-image: url("../img/header-640.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -212,7 +254,8 @@ button {
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 10px black;
+  -webkit-box-shadow: 0 0 10px black;
+          box-shadow: 0 0 10px black;
 }
 .header h1 {
   margin-top: 20px;
@@ -235,7 +278,10 @@ button {
   top: 0;
   left: -150%;
   width: 100%;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 .aside .lists-errors {
   font-weight: bold;
@@ -270,10 +316,16 @@ button {
   width: 40%;
   cursor: pointer;
 }
+.aside .lists-mobile ul li ::-webkit-input-placeholder {
+  color: black;
+}
 .aside .lists-mobile ul li ::-moz-placeholder {
   color: black;
 }
 .aside .lists-mobile ul li :-ms-input-placeholder {
+  color: black;
+}
+.aside .lists-mobile ul li ::-ms-input-placeholder {
   color: black;
 }
 .aside .lists-mobile ul li ::placeholder {
@@ -289,10 +341,16 @@ button {
 .aside .lists-mobile ul .add-list input {
   cursor: auto;
 }
+.aside .lists-mobile ul .add-list ::-webkit-input-placeholder {
+  color: darkslategray;
+}
 .aside .lists-mobile ul .add-list ::-moz-placeholder {
   color: darkslategray;
 }
 .aside .lists-mobile ul .add-list :-ms-input-placeholder {
+  color: darkslategray;
+}
+.aside .lists-mobile ul .add-list ::-ms-input-placeholder {
   color: darkslategray;
 }
 .aside .lists-mobile ul .add-list ::placeholder {
@@ -329,6 +387,13 @@ button {
   width: 50%;
   height: 22px;
 }
+.aside .lists-pc ul li ::-webkit-input-placeholder {
+  -webkit-transition: color 0.25s;
+  transition: color 0.25s;
+  font-size: 20px;
+  color: black;
+  border: none;
+}
 .aside .lists-pc ul li ::-moz-placeholder {
   -moz-transition: color 0.25s;
   transition: color 0.25s;
@@ -343,16 +408,30 @@ button {
   color: black;
   border: none;
 }
-.aside .lists-pc ul li ::placeholder {
+.aside .lists-pc ul li ::-ms-input-placeholder {
+  -ms-transition: color 0.25s;
   transition: color 0.25s;
   font-size: 20px;
   color: black;
   border: none;
 }
+.aside .lists-pc ul li ::placeholder {
+  -webkit-transition: color 0.25s;
+  transition: color 0.25s;
+  font-size: 20px;
+  color: black;
+  border: none;
+}
+.aside .lists-pc ul li a:hover ::-webkit-input-placeholder {
+  color: gold;
+}
 .aside .lists-pc ul li a:hover ::-moz-placeholder {
   color: gold;
 }
 .aside .lists-pc ul li a:hover :-ms-input-placeholder {
+  color: gold;
+}
+.aside .lists-pc ul li a:hover ::-ms-input-placeholder {
   color: gold;
 }
 .aside .lists-pc ul li a:hover ::placeholder {
@@ -365,6 +444,7 @@ button {
   cursor: pointer;
   padding: 0 10px;
   font-size: 16px;
+  -webkit-transition: color 0.25s;
   transition: color 0.25s;
 }
 .aside .lists-pc ul li .tools .tools-button:hover {
@@ -373,10 +453,16 @@ button {
 .aside .lists-pc ul .add-list .tools {
   margin-left: calc(1% + 40.16px);
 }
+.aside .lists-pc ul .add-list ::-webkit-input-placeholder {
+  color: darkslategray;
+}
 .aside .lists-pc ul .add-list ::-moz-placeholder {
   color: darkslategray;
 }
 .aside .lists-pc ul .add-list :-ms-input-placeholder {
+  color: darkslategray;
+}
+.aside .lists-pc ul .add-list ::-ms-input-placeholder {
   color: darkslategray;
 }
 .aside .lists-pc ul .add-list ::placeholder {
@@ -387,8 +473,12 @@ button {
 }
 
 .main-list li {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin: 0;
   padding: 10px;
   color: black;
@@ -406,6 +496,10 @@ button {
   color: black;
   width: 70%;
 }
+.main-list li ::-webkit-input-placeholder {
+  color: black;
+  font-size: 18px;
+}
 .main-list li ::-moz-placeholder {
   color: black;
   font-size: 18px;
@@ -414,9 +508,18 @@ button {
   color: black;
   font-size: 18px;
 }
+.main-list li ::-ms-input-placeholder {
+  color: black;
+  font-size: 18px;
+}
 .main-list li ::placeholder {
   color: black;
   font-size: 18px;
+}
+.main-list li .done::-webkit-input-placeholder {
+  text-decoration: line-through;
+  font-style: italic;
+  color: darkslategray;
 }
 .main-list li .done::-moz-placeholder {
   text-decoration: line-through;
@@ -424,6 +527,11 @@ button {
   color: darkslategray;
 }
 .main-list li .done:-ms-input-placeholder {
+  text-decoration: line-through;
+  font-style: italic;
+  color: darkslategray;
+}
+.main-list li .done::-ms-input-placeholder {
   text-decoration: line-through;
   font-style: italic;
   color: darkslategray;
@@ -437,6 +545,7 @@ button {
   cursor: pointer;
   padding: 6px;
   font-size: 16px;
+  -webkit-transition: color 0.25s;
   transition: color 0.25s;
 }
 .main-list li .tools .tools-button:hover {
@@ -445,10 +554,16 @@ button {
 .main-list .add-task input {
   cursor: auto;
 }
+.main-list .add-task ::-webkit-input-placeholder {
+  color: darkslategray;
+}
 .main-list .add-task ::-moz-placeholder {
   color: darkslategray;
 }
 .main-list .add-task :-ms-input-placeholder {
+  color: darkslategray;
+}
+.main-list .add-task ::-ms-input-placeholder {
   color: darkslategray;
 }
 .main-list .add-task ::placeholder {
@@ -462,14 +577,22 @@ button {
 }
 
 .show-aside {
-  transform: translateX(150%);
+  -webkit-transform: translateX(150%);
+          transform: translateX(150%);
 }
 
 .form {
   max-width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 90%;
   margin: 10vh auto;
   padding: 20px;
@@ -512,9 +635,16 @@ button {
 }
 
 .error-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   text-align: center;
 }
 .error-container h1 {
@@ -534,9 +664,15 @@ button {
   border-left: 5px solid tomato;
   border-right: 5px solid tomato;
   background-color: #eee;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .error-container .fun-fact-box p {
   font-weight: bold;
@@ -562,10 +698,16 @@ button {
   .aside .lists-mobile ul li input {
     font-size: 24px;
   }
+  .aside .lists-mobile ul li ::-webkit-input-placeholder {
+    font-size: 24px;
+  }
   .aside .lists-mobile ul li ::-moz-placeholder {
     font-size: 24px;
   }
   .aside .lists-mobile ul li :-ms-input-placeholder {
+    font-size: 24px;
+  }
+  .aside .lists-mobile ul li ::-ms-input-placeholder {
     font-size: 24px;
   }
   .aside .lists-mobile ul li ::placeholder {
@@ -582,7 +724,8 @@ button {
   .form {
     border: 3px solid darkslategray;
     border-radius: 30px;
-    box-shadow: 0 0 5px darkslategray;
+    -webkit-box-shadow: 0 0 5px darkslategray;
+            box-shadow: 0 0 5px darkslategray;
   }
 }
 @media (min-width: 992px) {
@@ -605,8 +748,13 @@ button {
     display: none;
   }
   .nav .nav-pc {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .header {
     position: fixed;
@@ -620,6 +768,8 @@ button {
     margin-right: 15%;
   }
   .list-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
   }
   .aside {
@@ -660,13 +810,13 @@ button {
     border: 5px solid black;
     border-top-right-radius: 80px;
     border-bottom-left-radius: 80px;
-    box-shadow: 0 0 10px black;
+    -webkit-box-shadow: 0 0 10px black;
+            box-shadow: 0 0 10px black;
     overflow-x: hidden;
     min-height: auto;
     height: 90vh;
   }
   .nav {
-    position: -webkit-sticky;
     position: sticky;
   }
   .header {
