@@ -33,7 +33,7 @@ class Lists(Resource):
         if len(new_name) > 32:
             return {'error': "This name is too long."}
         if new_name == old_name:
-            return {}, 304
+            return {}, 200
         the_same_list = List.query.filter_by(name=new_name, author=current_user).first()
         if the_same_list:
             return{'error': "Lists can't have the same names!"}
@@ -94,7 +94,7 @@ class Tasks(Resource):
         if len(new_name) > 64:
             return {'error': "This task is too long."}
         if new_name == old_name:
-            return {}, 304
+            return {}, 200
         active_list = List.query.filter_by(name=active_list_name, author=current_user).first_or_404()
         task_to_edit = Task.query.filter_by(name=old_name, parent_list=active_list).first_or_404()
         task_to_edit.name = new_name
@@ -115,7 +115,6 @@ class Tasks(Resource):
 class Display_list(Resource):
     @login_required
     def post(self):
-        print('proba')
         list_name = request.json['list_name']
         active_list = List.query.filter_by(author=current_user, name=list_name).first_or_404()
         tasks = [[task.name, task.is_done] for task in active_list.tasks]
