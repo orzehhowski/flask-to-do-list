@@ -3,15 +3,12 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask_restful import Api
-from app.main.routes import Index
 
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = 'Log in to access this page'
-api = Api()
 
 def create_app(config_class=Config):
 
@@ -21,9 +18,6 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
-    api.init_app(app)
-    api.add_resource(Index, '/')
-    api.add_resource(Index, '/index')
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)

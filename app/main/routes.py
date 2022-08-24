@@ -6,13 +6,12 @@ from app.models import List, Task
 from flask_restful import Resource
 
 
-# @bp.route('/')
-# @bp.route('/index')
-class Index(Resource):
-    @login_required
-    def get(self):
-        lists = List.query.filter_by(author=current_user).order_by(-List.id)
-        return render_template('index.html', lists=lists, title='ToDo List')
+@bp.route('/')
+@bp.route('/index')
+@login_required
+def index():
+    lists = List.query.filter_by(author=current_user).order_by(-List.id)
+    return render_template('index.html', lists=lists, title='ToDo List')
 
 
 @bp.route('/add-list', methods=['POST'])
