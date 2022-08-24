@@ -1,6 +1,6 @@
 from app import db
 from app.main import bp
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, Response
 from flask_login import current_user, login_required
 from app.models import List, Task
 from flask_restful import Resource
@@ -31,7 +31,7 @@ def add_list():
     new_list = List(name=list_name, author=current_user)
     db.session.add(new_list)
     db.session.commit()
-    return 200
+    return Response(status=201)
 
 
 @bp.route('/add-task', methods=['POST'])
@@ -47,7 +47,7 @@ def add_task():
     task = Task(name=task_name, parent_list=active_list)
     db.session.add(task)
     db.session.commit()
-    return 200
+    return Response(status=201)
 
 
 @bp.route('/edit-list', methods=['POST'])
@@ -60,14 +60,14 @@ def edit_list():
     if len(new_name) > 32:
         return jsonify({'error': "This name is too long."})
     if new_name == old_name:
-        return jsonify({})
+        return Response(status=304)
     the_same_list = List.query.filter_by(name=new_name, author=current_user).first()
     if the_same_list:
         return jsonify({'error': "Lists can't have the same names!"})
     list_to_edit = List.query.filter_by(name=old_name, author=current_user).first_or_404()
     list_to_edit.name = new_name
     db.session.commit()
-    return 200
+    return Response(status=200)
 
 
 @bp.route('/edit-task', methods=['POST'])
@@ -81,12 +81,12 @@ def edit_task():
     if len(new_name) > 64:
         return jsonify({'error': "This task is too long."})
     if new_name == old_name:
-        return 200
+        return Response(status=304)
     active_list = List.query.filter_by(name=active_list_name, author=current_user).first_or_404()
     task_to_edit = Task.query.filter_by(name=old_name, parent_list=active_list).first_or_404()
     task_to_edit.name = new_name
     db.session.commit()
-    return 200
+    return Response(status=200)
 
 
 @bp.route('/delete-list', methods=['POST'])
@@ -98,7 +98,7 @@ def delete_list():
     to_delete = List.query.filter_by(name=list_name, author=current_user).first_or_404()
     db.session.delete(to_delete)
     db.session.commit()
-    return 200
+    return Response(status=200)
 
 
 @bp.route('/delete-task', methods=['POST'])
@@ -110,7 +110,7 @@ def delete_task():
     task = Task.query.filter_by(name=task_name, parent_list=active_list).first_or_404()
     db.session.delete(task)
     db.session.commit()
-    return 200
+    return Response(status=200)
 
 @bp.route('/mark-task-as-done', methods=['POST'])
 @login_required
@@ -121,7 +121,7 @@ def mark_task_as_done():
     task = Task.query.filter_by(name=task_name, parent_list=active_list).first_or_404()
     task.is_done = True
     db.session.commit()
-    return 200
+    return Response(status=200)
 
 
 @bp.route('/mark-task-as-undone', methods=['POST'])
@@ -133,7 +133,7 @@ def mark_task_as_undone():
     task = Task.query.filter_by(name=task_name, parent_list=active_list).first_or_404()
     task.is_done = False
     db.session.commit()
-    return 200
+    return Response(status=200)
 
 
 @bp.route('/tasks', methods=['POST'])
