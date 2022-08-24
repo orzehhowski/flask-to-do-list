@@ -62,11 +62,15 @@ const addList = (e) => {
     const addField = e.target.closest('.add-list')
     const lists = document.querySelectorAll('.lists-list')
     const listName = addField.querySelector('input').value
-
-    axios.post(`/add-list`, {
-        list_name: listName
-    }).then(r => {
-        if (! r.data.error) {
+    const data = {list_name: listName}
+    fetch(`/lists`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(r => r.json()).then(r => {
+        if (! r.error) {
             
             lists.forEach(l => {
                 const new_list = document.createElement('li')
@@ -89,26 +93,33 @@ const addList = (e) => {
             hideError()
             
         } else {
-            displayError(r.data.error)   
+            displayError(r.error)
         }
         addField.querySelector('input').value = ''
-    }).catch(() => displayError('Ooops, something went wrong'))
+    }).catch(() => displayError(`Ooops, something went wrong`))
 }
 
 const addTask = () => {
     const addFieldInput = document.querySelector('.add-task input')
     const newTaskName = addFieldInput.value
     const listName = document.querySelector('.active input').getAttribute('placeholder')
-
-    axios.post('/add-task', {
+    const data = {
         task_name: newTaskName,
         list_name: listName
-    }).then(r => {
-        if (!r.data.error) {
+    }
+
+    fetch(`/tasks`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(r => r.json()).then(r => {
+        if (!r.error) {
             displayList()
         }
         else {
-            displayError(r.data.error)
+            displayError(r.error)
         }
         addFieldInput.value = ''
     }).catch(() => {
@@ -142,11 +153,18 @@ const editList = (e) => {
         const oldName = toEdit.dataset.oldname
         const newName = inputElement.value
         const inputs = document.querySelectorAll(`[data-oldname="${oldName}"]`)
-        axios.post('/edit-list', {
+        const data = {
             old_name: oldName,
             new_name: newName
-        }).then(r => {
-            if (!r.data.error) {
+        }
+        fetch('/lists', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }).then(r => r.json()).then(r => {
+            if (!r.error) {
                 inputs.forEach(input => {
                     input.setAttribute('placeholder', newName)
                     input.dataset.oldname = newName
@@ -157,7 +175,7 @@ const editList = (e) => {
                 }
             } else {
                 inputElement.setAttribute('placeholder', oldName)
-                displayError(r.data.error)
+                displayError(r.error)
             }
             inputElement.value = ''
         }).catch(() => {
@@ -199,16 +217,25 @@ const editTask = (e) => {
     const endTaskEditing = (inputElement) => {
         const newName = inputElement.value
         const activeList = document.querySelector('.active input').getAttribute('placeholder')
-        axios.post('/edit-task', {
+        const data = {
+            mark_as_done: false,
+            mark_as_undone: false,
             old_name: oldName,
             new_name: newName,
             active_list: activeList
-        }).then((r) => {
-            if (!r.data.error) {
+        }
+        fetch(`/tasks`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }).then(r => r.json()).then(r => {
+                if (!r.error) {
                 inputElement.setAttribute('placeholder', newName)
                 hideError()
             } else {
-                displayError(r.data.error)
+                displayError(r.error)
                 inputElement.setAttribute('placeholder', oldName)
             }
             inputElement.value = ''
@@ -230,14 +257,20 @@ const editTask = (e) => {
 const deleteList = (e) => {
     const toDeleteName = e.target.parentElement.parentElement.querySelector('input').getAttribute('placeholder')
     let toDelete = document.querySelectorAll(`[placeholder="${toDeleteName}"]`)
-    axios.post('/delete-list', {
-        list_name: toDeleteName
-    }).then((r) => {
-        if (!r.data.error) {
+    const data = {list_name: toDeleteName}
+    fetch('/lists', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(r => r.json()).then((r) => {
+        console.log(r);
+        if (!r.error) {
             toDelete.forEach(el => el.parentElement.parentElement.remove())
             hideError()
         } else {
-            displayError(r.data.error)
+            displayError(r.error)
         }
         if (toDelete[0].parentElement.parentElement.matches('.active')) {
             const listsList = document.querySelectorAll('.lists-list')
@@ -254,10 +287,17 @@ const deleteTask = (e) => {
     const toDelete = e.target.parentElement.parentElement
     const taskName = toDelete.querySelector('input').getAttribute('placeholder')
     const activeList = document.querySelector('.active input').getAttribute('placeholder')
-    axios.post('/delete-task', {
-        task_name: taskName,
-        active_list: activeList
-    }).then((r) => {
+    const data = {
+        active_list: activeList,
+        task_name: taskName
+    }
+    fetch(`/tasks`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(() => {
         toDelete.remove()
         hideError()
     }).catch(() => {
@@ -268,9 +308,17 @@ const markTaskAsDone = (e) => {
     const doneInput = e.target.parentElement.parentElement.querySelector('input')
     const taskName = doneInput.getAttribute('placeholder')
     const activeList = document.querySelector('.active input').getAttribute('placeholder')
-    axios.post('/mark-task-as-done', {
+    const data = {
+        mark_as_done: true,
         task_name: taskName,
         active_list: activeList
+    }
+    fetch(`/tasks`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
     }).then(() => {
         doneInput.classList.add('done')
         e.target.classList.add('hide')
@@ -288,9 +336,18 @@ const markTaskAsUndone = (e) => {
     const taskEditButton = e.target.parentElement.querySelector('.task-edit-button')
     const taskName = doneInput.getAttribute('placeholder')
     const activeList = document.querySelector('.active input').getAttribute('placeholder')
-    axios.post('/mark-task-as-undone', {
+    const data = {
+        mark_as_done: false,
+        mark_as_undone: true,
         task_name: taskName,
         active_list: activeList
+    }
+    fetch(`/tasks`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
     }).then(() => {
         doneInput.classList.remove('done')
         e.target.classList.add('hide')
@@ -332,12 +389,17 @@ const displayList = () => {
         lastTask.remove()
         lastTask = tasksList.lastElementChild
     }
-
+    
     listNameHeading.textContent = listName
-    axios.post('/tasks', {
-        list_name: listName
-    }).then(r => {
-        for (let task of r.data.tasks) {
+    const data = {list_name: listName}
+    fetch('/display-list', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(r => r.json()).then(r => {
+        for (let task of r.tasks) {
             const newLi = document.createElement('li')
             newLi.classList.add('task')
             newLi.innerHTML = `
@@ -363,7 +425,7 @@ const displayList = () => {
         tasksList.append(newLi)
         }
     }).catch(() => {
-        displayError('Could not load your list :c')
+        displayError(`Could not load your list :c`)
     })
 }
 
