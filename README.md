@@ -1,5 +1,5 @@
 # flask-to-do-list
 
-app is deployed on heroku [need to find error sorry]:
+app is deployed on heroku:
 
 https://todolist-by-orzehhowski.herokuapp.com/
