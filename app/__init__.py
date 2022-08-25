@@ -30,11 +30,11 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     from app.api import bp as api_bp
-    from app.api.routes import Lists, Tasks, Display_list
+    from app.api.routes import Lists, Tasks, Active_list
     api = Api(api_bp)
     api.add_resource(Lists, '/lists')
     api.add_resource(Tasks, '/tasks')
-    api.add_resource(Display_list, '/display-list')
+    api.add_resource(Active_list, '/active-list')
     app.register_blueprint(api_bp)
 
     return app

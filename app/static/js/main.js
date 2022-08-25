@@ -75,7 +75,7 @@ const addList = (e) => {
             lists.forEach(l => {
                 const new_list = document.createElement('li')
                 new_list.innerHTML = `
-            <a href="#"><input type="text" placeholder="${listName}" data-oldname="${listName}" readonly></a>
+            <a href="#"><input id="list-${l.parentElement.matches('.lists-mobile') ? 'mb' : 'pc'}${r.id}" type="text" placeholder="${listName}" data-oldname="${listName}" readonly></a>
             <span class="tools">
             <button class="tools-button edit-list-button">
             <i class="fa-solid fa-pen"></i>
@@ -102,10 +102,10 @@ const addList = (e) => {
 const addTask = () => {
     const addFieldInput = document.querySelector('.add-task input')
     const newTaskName = addFieldInput.value
-    const listName = document.querySelector('.active input').getAttribute('placeholder')
+    const list = document.querySelector('.active input').id
     const data = {
         task_name: newTaskName,
-        list_name: listName
+        list: list
     }
 
     fetch(`/tasks`, {
@@ -152,8 +152,10 @@ const editList = (e) => {
     const endListEditing = (inputElement) => {
         const oldName = toEdit.dataset.oldname
         const newName = inputElement.value
+        const list = toEdit.id
         const inputs = document.querySelectorAll(`[data-oldname="${oldName}"]`)
         const data = {
+            list: list,
             old_name: oldName,
             new_name: newName
         }
@@ -216,13 +218,13 @@ const editTask = (e) => {
     
     const endTaskEditing = (inputElement) => {
         const newName = inputElement.value
-        const activeList = document.querySelector('.active input').getAttribute('placeholder')
+        const task = toEdit.id
         const data = {
             mark_as_done: false,
             mark_as_undone: false,
             old_name: oldName,
             new_name: newName,
-            active_list: activeList
+            task: task,
         }
         fetch(`/tasks`, {
             method: 'PUT',
@@ -255,9 +257,9 @@ const editTask = (e) => {
 }
 
 const deleteList = (e) => {
-    const toDeleteName = e.target.parentElement.parentElement.querySelector('input').getAttribute('placeholder')
-    let toDelete = document.querySelectorAll(`[placeholder="${toDeleteName}"]`)
-    const data = {list_name: toDeleteName}
+    const toDeleteList = e.target.parentElement.parentElement.querySelector('input').id
+    let toDelete = [document.querySelector(`#list-pc${toDeleteList.slice(7)}`), document.querySelector(`#list-mb${toDeleteList.slice(7)}`)]
+    const data = {list: toDeleteList}
     fetch('/lists', {
         method: 'DELETE',
         headers: {
@@ -265,7 +267,6 @@ const deleteList = (e) => {
         },
         body: JSON.stringify(data)
     }).then(r => r.json()).then((r) => {
-        console.log(r);
         if (!r.error) {
             toDelete.forEach(el => el.parentElement.parentElement.remove())
             hideError()
@@ -285,11 +286,9 @@ const deleteList = (e) => {
 
 const deleteTask = (e) => {
     const toDelete = e.target.parentElement.parentElement
-    const taskName = toDelete.querySelector('input').getAttribute('placeholder')
-    const activeList = document.querySelector('.active input').getAttribute('placeholder')
+    const task = toDelete.querySelector('input').id
     const data = {
-        active_list: activeList,
-        task_name: taskName
+        task: task
     }
     fetch(`/tasks`, {
         method: 'DELETE',
@@ -306,12 +305,10 @@ const deleteTask = (e) => {
 
 const markTaskAsDone = (e) => {
     const doneInput = e.target.parentElement.parentElement.querySelector('input')
-    const taskName = doneInput.getAttribute('placeholder')
-    const activeList = document.querySelector('.active input').getAttribute('placeholder')
+    const task = doneInput.id
     const data = {
         mark_as_done: true,
-        task_name: taskName,
-        active_list: activeList
+        task: task,
     }
     fetch(`/tasks`, {
         method: 'PUT',
@@ -334,13 +331,11 @@ const markTaskAsUndone = (e) => {
     const doneInput = e.target.parentElement.parentElement.querySelector('input')
     const taskDoneButton = e.target.parentElement.querySelector('.task-done-button')
     const taskEditButton = e.target.parentElement.querySelector('.task-edit-button')
-    const taskName = doneInput.getAttribute('placeholder')
-    const activeList = document.querySelector('.active input').getAttribute('placeholder')
+    const task = doneInput.id
     const data = {
         mark_as_done: false,
         mark_as_undone: true,
-        task_name: taskName,
-        active_list: activeList
+        task: task,
     }
     fetch(`/tasks`, {
         method: 'PUT',
@@ -382,6 +377,7 @@ const setActiveList = (e) => {
 const displayList = () => {
     const listNameHeading = document.querySelector('h2')
     const listsList = document.querySelectorAll('.lists-list')
+    const list = listsList[0].querySelector('.active input').id
     const listName = listsList[0].querySelector('.active input').dataset.oldname
     const tasksList = document.querySelector('.tasks-list')
     let lastTask = tasksList.lastElementChild
@@ -391,8 +387,8 @@ const displayList = () => {
     }
     
     listNameHeading.textContent = listName
-    const data = {list_name: listName}
-    fetch('/display-list', {
+    const data = {list: list}
+    fetch('/active-list', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -403,25 +399,26 @@ const displayList = () => {
             const newLi = document.createElement('li')
             newLi.classList.add('task')
             newLi.innerHTML = `
-            <input type="text" placeholder="${task[0]}" readonly ${task[1] ? 'class="done"' : ''}>
+            <input id="task${task['id']}" type="text" readonly ${task['done'] ? 'class="done"' : ''}>
             <span class="tools">
                 <button class="tools-button task-end-editing-button hide">
                 <i class="fa-solid fa-check"></i>
                 </button>
-                <button class="tools-button task-undone-button ${task[1] ? '' : 'hide'}">
+                <button class="tools-button task-undone-button ${task['done'] ? '' : 'hide'}">
                     <i class="fa-solid fa-rotate-left"></i>
                 </button>
-                <button class="tools-button task-done-button ${task[1] ? 'hide' : ''}">
+                <button class="tools-button task-done-button ${task['done'] ? 'hide' : ''}">
                     <i class="fa-solid fa-check"></i>
                 </button>
-                <button class="tools-button task-edit-button ${task[1] ? 'hide' : ''}">
+                <button class="tools-button task-edit-button ${task['done'] ? 'hide' : ''}">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button class="tools-button task-delete-button">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
             </span>`
-        
+            newLi.querySelector('input').setAttribute('placeholder', task['name'])
+
         tasksList.append(newLi)
         }
     }).catch(() => {

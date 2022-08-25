@@ -63,7 +63,7 @@
                     {% for l in lists %}
                     
                     <li>
-                        <a href="#"><input type="text" placeholder="{{ l.name }}" data-oldname="{{ l.name }}" readonly></a>
+                        <a href="#"><input id="list-mb{{ l.id }}" type="text" placeholder="{{ l.name }}" data-oldname="{{ l.name }}" readonly></a>
                         <span class="tools">
                             <button class="tools-button edit-list-button">
                             <i class="fa-solid fa-pen"></i>
@@ -94,7 +94,7 @@
                 {% for l in lists %}
                 
                 <li>
-                    <a href="#"><input type="text" placeholder="{{ l.name }}" size="12" readonly></a>
+                    <a href="#"><input id="list-pc{{ l.id }}" type="text" placeholder="{{ l.name }}" size="12" readonly></a>
                     <span class="tools">
                         <button class="tools-button edit-list-button">
                             <i class="fa-solid fa-pen"></i>
