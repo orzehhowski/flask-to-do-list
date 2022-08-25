@@ -63,7 +63,7 @@ const addList = (e) => {
     const lists = document.querySelectorAll('.lists-list')
     const listName = addField.querySelector('input').value
     const data = {list_name: listName}
-    fetch(`/lists`, {
+    fetch(`/list/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -99,34 +99,6 @@ const addList = (e) => {
     }).catch(() => displayError(`Ooops, something went wrong`))
 }
 
-const addTask = () => {
-    const addFieldInput = document.querySelector('.add-task input')
-    const newTaskName = addFieldInput.value
-    const list = document.querySelector('.active input').id
-    const data = {
-        task_name: newTaskName,
-        list: list
-    }
-
-    fetch(`/tasks`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    }).then(r => r.json()).then(r => {
-        if (!r.error) {
-            displayList()
-        }
-        else {
-            displayError(r.error)
-        }
-        addFieldInput.value = ''
-    }).catch(() => {
-        displayError('Ooops, something went wrong')
-    })
-}
-
 const editList = (e) => {
     // idk why it dont works
     // const toEdit = e.target.closest('input')
@@ -152,14 +124,13 @@ const editList = (e) => {
     const endListEditing = (inputElement) => {
         const oldName = toEdit.dataset.oldname
         const newName = inputElement.value
-        const list = toEdit.id
+        const listID = toEdit.id.slice(7)
         const inputs = document.querySelectorAll(`[data-oldname="${oldName}"]`)
         const data = {
-            list: list,
             old_name: oldName,
             new_name: newName
         }
-        fetch('/lists', {
+        fetch(`/list/${listID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -194,6 +165,122 @@ const editList = (e) => {
     toEdit.addEventListener('keydown', activateKeydown)
 }
 
+const deleteList = (e) => {
+    const toDeleteListID = e.target.parentElement.parentElement.querySelector('input').id.slice(7)
+    let toDelete = [document.querySelector(`#list-pc${toDeleteListID}`), document.querySelector(`#list-mb${toDeleteListID}`)]
+    fetch(`/list/${toDeleteListID}`, {
+        method: 'DELETE'
+    }).then(r => r.json()).then((r) => {
+        if (!r.error) {
+            toDelete.forEach(el => el.parentElement.parentElement.remove())
+            hideError()
+        } else {
+            displayError(r.error)
+        }
+        if (toDelete[0].parentElement.parentElement.matches('.active')) {
+            const listsList = document.querySelectorAll('.lists-list')
+            listsList.forEach(l => {
+                l.firstElementChild.classList.add('active')
+            })
+            displayList()
+        }
+    }).catch(() => {
+        displayError('Ooops, something went wrong')})
+}
+
+const setActiveList = (e) => {
+    const oldActive = document.getElementsByClassName('active')
+    for (let el of oldActive) {
+        el.classList.remove('active')
+    }
+    let activeListName
+    if (e.target.matches('input')) {
+        activeListName = e.target.getAttribute('placeholder')
+    } else {
+        activeListName = e.target.getElementsByTagName('input')[0].getAttribute('placeholder')
+    }
+    const newActive = document.querySelectorAll(`[placeholder="${activeListName}"]`)
+    newActive.forEach(input => {input.parentElement.parentElement.classList.add('active')})
+
+    displayList()
+    if (e.target.closest('div').matches('.lists-mobile')) {
+        toggleListMenu()
+    }
+}
+
+const displayList = () => {
+    const listNameHeading = document.querySelector('h2')
+    const listsList = document.querySelectorAll('.lists-list')
+    const listID = listsList[0].querySelector('.active input').id.slice(7)
+    const listName = listsList[0].querySelector('.active input').dataset.oldname
+    const tasksList = document.querySelector('.tasks-list')
+    let lastTask = tasksList.lastElementChild
+    while(!lastTask.matches('.add-task')) {
+        lastTask.remove()
+        lastTask = tasksList.lastElementChild
+    }
+    
+    listNameHeading.textContent = listName
+    fetch(`/list/${listID}`).then(r => r.json()).then(r => {
+        for (let task of r.tasks) {
+            const newLi = document.createElement('li')
+            newLi.classList.add('task')
+            newLi.innerHTML = `
+            <input id="task${task['id']}" type="text" readonly ${task['done'] ? 'class="done"' : ''}>
+            <span class="tools">
+                <button class="tools-button task-end-editing-button hide">
+                <i class="fa-solid fa-check"></i>
+                </button>
+                <button class="tools-button task-undone-button ${task['done'] ? '' : 'hide'}">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button class="tools-button task-done-button ${task['done'] ? 'hide' : ''}">
+                    <i class="fa-solid fa-check"></i>
+                </button>
+                <button class="tools-button task-edit-button ${task['done'] ? 'hide' : ''}">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="tools-button task-delete-button">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </span>`
+            newLi.querySelector('input').setAttribute('placeholder', task['name'])
+
+        tasksList.append(newLi)
+        }
+    }).catch(() => {
+        displayError(`Could not load your list :c`)
+    })
+}
+
+const addTask = () => {
+    const addFieldInput = document.querySelector('.add-task input')
+    const newTaskName = addFieldInput.value
+    const list = document.querySelector('.active input').id
+    const data = {
+        task_name: newTaskName,
+        list: list
+    }
+
+    fetch(`/task/add`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(r => r.json()).then(r => {
+        if (!r.error) {
+            displayList()
+        }
+        else {
+            displayError(r.error)
+        }
+        addFieldInput.value = ''
+    }).catch(() => {
+        displayError('Ooops, something went wrong')
+    })
+}
+
 const editTask = (e) => {
     const toEdit = e.target.parentElement.parentElement.querySelector('input')
     const endEditingButton = e.target.parentElement.querySelector('.task-end-editing-button')
@@ -218,15 +305,14 @@ const editTask = (e) => {
     
     const endTaskEditing = (inputElement) => {
         const newName = inputElement.value
-        const task = toEdit.id
+        const taskID = toEdit.id.slice(4)
         const data = {
             mark_as_done: false,
             mark_as_undone: false,
             old_name: oldName,
             new_name: newName,
-            task: task,
         }
-        fetch(`/tasks`, {
+        fetch(`/task/${taskID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -256,46 +342,11 @@ const editTask = (e) => {
     toEdit.addEventListener('keydown', activateKeydown)
 }
 
-const deleteList = (e) => {
-    const toDeleteList = e.target.parentElement.parentElement.querySelector('input').id
-    let toDelete = [document.querySelector(`#list-pc${toDeleteList.slice(7)}`), document.querySelector(`#list-mb${toDeleteList.slice(7)}`)]
-    const data = {list: toDeleteList}
-    fetch('/lists', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    }).then(r => r.json()).then((r) => {
-        if (!r.error) {
-            toDelete.forEach(el => el.parentElement.parentElement.remove())
-            hideError()
-        } else {
-            displayError(r.error)
-        }
-        if (toDelete[0].parentElement.parentElement.matches('.active')) {
-            const listsList = document.querySelectorAll('.lists-list')
-            listsList.forEach(l => {
-                l.firstElementChild.classList.add('active')
-            })
-            displayList()
-        }
-    }).catch(() => {
-        displayError('Ooops, something went wrong')})
-}
-
 const deleteTask = (e) => {
     const toDelete = e.target.parentElement.parentElement
-    const task = toDelete.querySelector('input').id
-    const data = {
-        task: task
-    }
-    fetch(`/tasks`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+    const taskID = toDelete.querySelector('input').id.slice(4)
+    fetch(`/task/${taskID}`, {
+        method: 'DELETE'
     }).then(() => {
         toDelete.remove()
         hideError()
@@ -305,12 +356,11 @@ const deleteTask = (e) => {
 
 const markTaskAsDone = (e) => {
     const doneInput = e.target.parentElement.parentElement.querySelector('input')
-    const task = doneInput.id
+    const taskID = doneInput.id.slice(4)
     const data = {
         mark_as_done: true,
-        task: task,
     }
-    fetch(`/tasks`, {
+    fetch(`/task/${taskID}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -331,13 +381,12 @@ const markTaskAsUndone = (e) => {
     const doneInput = e.target.parentElement.parentElement.querySelector('input')
     const taskDoneButton = e.target.parentElement.querySelector('.task-done-button')
     const taskEditButton = e.target.parentElement.querySelector('.task-edit-button')
-    const task = doneInput.id
+    const taskID = doneInput.id.slice(4)
     const data = {
         mark_as_done: false,
         mark_as_undone: true,
-        task: task,
     }
-    fetch(`/tasks`, {
+    fetch(`/task/${taskID}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -351,78 +400,6 @@ const markTaskAsUndone = (e) => {
         hideError()
     }).catch(() => {
         displayError('Ooops, something went wrong')
-    })
-}
-
-const setActiveList = (e) => {
-    const oldActive = document.getElementsByClassName('active')
-    for (let el of oldActive) {
-        el.classList.remove('active')
-    }
-    let activeListName
-    if (e.target.matches('input')) {
-        activeListName = e.target.getAttribute('placeholder')
-    } else {
-        activeListName = e.target.getElementsByTagName('input')[0].getAttribute('placeholder')
-    }
-    const newActive = document.querySelectorAll(`[placeholder="${activeListName}"]`)
-    newActive.forEach(input => {input.parentElement.parentElement.classList.add('active')})
-
-    displayList()
-    if (e.target.closest('div').matches('.lists-mobile')) {
-        toggleListMenu()
-    }
-}
-
-const displayList = () => {
-    const listNameHeading = document.querySelector('h2')
-    const listsList = document.querySelectorAll('.lists-list')
-    const list = listsList[0].querySelector('.active input').id
-    const listName = listsList[0].querySelector('.active input').dataset.oldname
-    const tasksList = document.querySelector('.tasks-list')
-    let lastTask = tasksList.lastElementChild
-    while(!lastTask.matches('.add-task')) {
-        lastTask.remove()
-        lastTask = tasksList.lastElementChild
-    }
-    
-    listNameHeading.textContent = listName
-    const data = {list: list}
-    fetch('/active-list', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    }).then(r => r.json()).then(r => {
-        for (let task of r.tasks) {
-            const newLi = document.createElement('li')
-            newLi.classList.add('task')
-            newLi.innerHTML = `
-            <input id="task${task['id']}" type="text" readonly ${task['done'] ? 'class="done"' : ''}>
-            <span class="tools">
-                <button class="tools-button task-end-editing-button hide">
-                <i class="fa-solid fa-check"></i>
-                </button>
-                <button class="tools-button task-undone-button ${task['done'] ? '' : 'hide'}">
-                    <i class="fa-solid fa-rotate-left"></i>
-                </button>
-                <button class="tools-button task-done-button ${task['done'] ? 'hide' : ''}">
-                    <i class="fa-solid fa-check"></i>
-                </button>
-                <button class="tools-button task-edit-button ${task['done'] ? 'hide' : ''}">
-                    <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="tools-button task-delete-button">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
-            </span>`
-            newLi.querySelector('input').setAttribute('placeholder', task['name'])
-
-        tasksList.append(newLi)
-        }
-    }).catch(() => {
-        displayError(`Could not load your list :c`)
     })
 }
 
