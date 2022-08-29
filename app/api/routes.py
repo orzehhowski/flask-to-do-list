@@ -10,8 +10,10 @@ class ListAPI(Resource):
     @login_required
     def get(self, id):
         active_list = List.query.get_or_404(int(id))
-        tasks = [{'id':task.id, 'name':task.name, 'done':task.is_done} for task in active_list.tasks]
-        return {'tasks': tasks}
+        if active_list.author == current_user:
+            tasks = [{'id':task.id, 'name':task.name, 'done':task.is_done} for task in active_list.tasks]
+            return {'tasks': tasks}
+        return {}, 403
 
     @login_required
     def post(self, id):
@@ -32,81 +34,92 @@ class ListAPI(Resource):
 
     @login_required
     def put(self, id):
-        old_name = request.json['old_name']
-        new_name = request.json['new_name']
-        if not new_name:
-            return bad_request("List name can't be empty!")
-        if len(new_name) > 32:
-            return bad_request("This name is too long.")
-        if new_name == old_name:
-            return {}, 200
-        the_same_list = List.query.filter_by(name=new_name, author=current_user).first()
-        if the_same_list:
-            return bad_request("Lists can't have the same names!")
         list_to_edit = List.query.get_or_404(int(id))
-        list_to_edit.name = new_name
-        db.session.commit()
-        return {}, 200
+        if list_to_edit.author == current_user:
+            old_name = request.json['old_name']
+            new_name = request.json['new_name']
+            if not new_name:
+                return bad_request("List name can't be empty!")
+            if len(new_name) > 32:
+                return bad_request("This name is too long.")
+            if new_name == old_name:
+                return {}, 200
+            the_same_list = List.query.filter_by(name=new_name, author=current_user).first()
+            if the_same_list:
+                return bad_request("Lists can't have the same names!")
+            list_to_edit.name = new_name
+            db.session.commit()
+            return {}, 200
+        return {}, 403
 
     @login_required
     def delete(self, id):
-        if List.query.filter_by(author=current_user).count() == 1:
-           return bad_request("You can't delete your last list!")
         to_delete = List.query.get_or_404(int(id))
-        db.session.delete(to_delete)
-        db.session.commit()
-        return {}, 200
+        if to_delete.author == current_user:
+            if List.query.filter_by(author=current_user).count() == 1:
+                return bad_request("You can't delete your last list!")
+            db.session.delete(to_delete)
+            db.session.commit()
+            return {}, 200
+        return {}, 403
 
 
 class TaskAPI(Resource):
     @login_required
     def get(self, id):
-        return Task.query.get_or_404(int(id))
+        task = Task.query.get_or_404(int(id))
+        if task.parent_list.author == current_user:
+            return task
+        return {}, 403
 
     @login_required
     def post(self, id):
         task_name = request.json['task_name']
         list_id = request.json['list'][7:]
-        if not task_name:
-            return bad_request("Task name can't be empty!")
-        if len(task_name) > 64:
-            return bad_request("This name is too long.")
         active_list = List.query.get_or_404(list_id)
-        task = Task(name=task_name, parent_list=active_list)
-        db.session.add(task)
-        db.session.commit()
-        return {}, 201
+        if active_list.author == current_user:
+            if not task_name:
+                return bad_request("Task name can't be empty!")
+            if len(task_name) > 64:
+                return bad_request("This name is too long.")
+            task = Task(name=task_name, parent_list=active_list)
+            db.session.add(task)
+            db.session.commit()
+            return {}, 201
+        return {}, 403
 
     @login_required
     def put(self, id):
         mark_as_done = request.json['mark_as_done']
-        if mark_as_done:
-            task = Task.query.get_or_404(id)
-            task.is_done = True
-            db.session.commit()
-            return {}, 200
-        mark_as_undone = request.json['mark_as_undone']
-        if mark_as_undone:
-            task = Task.query.get_or_404(id)
-            task.is_done = False
-            db.session.commit()
-            return {}, 200
-        old_name = request.json['old_name']
-        new_name = request.json['new_name']
-        if not new_name:
-            return bad_request("Task can't be empty!")
-        if len(new_name) > 64:
-            return bad_request("This task is too long.")
-        if new_name == old_name:
-            return {}, 200
         task = Task.query.get_or_404(id)
-        task.name = new_name
-        db.session.commit()
-        return {}, 200
+        if task.parent_list.author == current_user:
+            if mark_as_done:
+                task.is_done = True
+                db.session.commit()
+                return {}, 200
+            mark_as_undone = request.json['mark_as_undone']
+            if mark_as_undone:
+                task.is_done = False
+                db.session.commit()
+                return {}, 200
+            old_name = request.json['old_name']
+            new_name = request.json['new_name']
+            if not new_name:
+                return bad_request("Task can't be empty!")
+            if len(new_name) > 64:
+                return bad_request("This task is too long.")
+            if new_name == old_name:
+                return {}, 200
+            task.name = new_name
+            db.session.commit()
+            return {}, 200
+        return {}, 403
 
     @login_required
     def delete(self, id):
         task = Task.query.get_or_404(id)
-        db.session.delete(task)
-        db.session.commit()
-        return {}, 200
+        if task.parent_list.author == current_user:
+            db.session.delete(task)
+            db.session.commit()
+            return {}, 200
+        return {}, 403
