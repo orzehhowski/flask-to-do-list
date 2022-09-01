@@ -58,12 +58,12 @@ const toggleListMenu = () => {
     }
 }
 
-const addList = (e) => {
+const addList = async (e) => {
     const addField = e.target.closest('.add-list')
     const lists = document.querySelectorAll('.lists-list')
     const listName = addField.querySelector('input').value
     const data = {list_name: listName}
-    fetch(`/list/add`, {
+    await fetch(`/list/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ const editList = (e) => {
         endListEditing(toEdit)
     }   
 
-    const endListEditing = (inputElement) => {
+    const endListEditing = async (inputElement) => {
         const oldName = toEdit.dataset.oldname
         const newName = inputElement.value
         const listID = toEdit.id.slice(7)
@@ -130,7 +130,7 @@ const editList = (e) => {
             old_name: oldName,
             new_name: newName
         }
-        fetch(`/list/${listID}`, {
+        await fetch(`/list/${listID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -165,10 +165,10 @@ const editList = (e) => {
     toEdit.addEventListener('keydown', activateKeydown)
 }
 
-const deleteList = (e) => {
+const deleteList = async (e) => {
     const toDeleteListID = e.target.parentElement.parentElement.querySelector('input').id.slice(7)
     let toDelete = [document.querySelector(`#list-pc${toDeleteListID}`), document.querySelector(`#list-mb${toDeleteListID}`)]
-    fetch(`/list/${toDeleteListID}`, {
+    await fetch(`/list/${toDeleteListID}`, {
         method: 'DELETE'
     }).then(r => r.json()).then((r) => {
         if (!r.error) {
@@ -208,7 +208,7 @@ const setActiveList = (e) => {
     }
 }
 
-const displayList = () => {
+const displayList = async () => {
     const listNameHeading = document.querySelector('h2')
     const listsList = document.querySelectorAll('.lists-list')
     const listID = listsList[0].querySelector('.active input').id.slice(7)
@@ -221,7 +221,7 @@ const displayList = () => {
     }
     
     listNameHeading.textContent = listName
-    fetch(`/list/${listID}`).then(r => r.json()).then(r => {
+    await fetch(`/list/${listID}`).then(r => r.json()).then(r => {
         for (let task of r.tasks) {
             const newLi = document.createElement('li')
             newLi.classList.add('task')
@@ -253,7 +253,7 @@ const displayList = () => {
     })
 }
 
-const addTask = () => {
+const addTask = async () => {
     const addFieldInput = document.querySelector('.add-task input')
     const newTaskName = addFieldInput.value
     const list = document.querySelector('.active input').id
@@ -262,7 +262,7 @@ const addTask = () => {
         list: list
     }
 
-    fetch(`/task/add`, {
+    await fetch(`/task/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -303,7 +303,7 @@ const editTask = (e) => {
         endTaskEditing(toEdit)
     }
     
-    const endTaskEditing = (inputElement) => {
+    const endTaskEditing = async (inputElement) => {
         const newName = inputElement.value
         const taskID = toEdit.id.slice(4)
         const data = {
@@ -312,7 +312,7 @@ const editTask = (e) => {
             old_name: oldName,
             new_name: newName,
         }
-        fetch(`/task/${taskID}`, {
+        await fetch(`/task/${taskID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -342,10 +342,10 @@ const editTask = (e) => {
     toEdit.addEventListener('keydown', activateKeydown)
 }
 
-const deleteTask = (e) => {
+const deleteTask = async (e) => {
     const toDelete = e.target.parentElement.parentElement
     const taskID = toDelete.querySelector('input').id.slice(4)
-    fetch(`/task/${taskID}`, {
+    await fetch(`/task/${taskID}`, {
         method: 'DELETE'
     }).then(() => {
         toDelete.remove()
@@ -354,13 +354,13 @@ const deleteTask = (e) => {
         displayError('Ooops, something went wrong')})
 }
 
-const markTaskAsDone = (e) => {
+const markTaskAsDone = async (e) => {
     const doneInput = e.target.parentElement.parentElement.querySelector('input')
     const taskID = doneInput.id.slice(4)
     const data = {
         mark_as_done: true,
     }
-    fetch(`/task/${taskID}`, {
+    await fetch(`/task/${taskID}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -377,7 +377,7 @@ const markTaskAsDone = (e) => {
     })
 }
 
-const markTaskAsUndone = (e) => {
+const markTaskAsUndone = async (e) => {
     const doneInput = e.target.parentElement.parentElement.querySelector('input')
     const taskDoneButton = e.target.parentElement.querySelector('.task-done-button')
     const taskEditButton = e.target.parentElement.querySelector('.task-edit-button')
@@ -386,7 +386,7 @@ const markTaskAsUndone = (e) => {
         mark_as_done: false,
         mark_as_undone: true,
     }
-    fetch(`/task/${taskID}`, {
+    await fetch(`/task/${taskID}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
